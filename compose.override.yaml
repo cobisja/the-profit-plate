@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+  http:
+    ports:
+      - "8000:80"
+
+  app:
+    environment:
+      - APP_ENV=${APP_ENV:-dev}
+      - XDEBUG_SESSION=DOCKER_XDEBUG
+      #      - XDEBUG_MODE=coverage
+      - PHP_IDE_CONFIG=serverName=fbc_http
+
+    volumes:
+      - .:/var/www
+      - ./docker/app/conf/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/app/conf/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+      - ./docker/app/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      - "33066:3306"
+###< doctrine/doctrine-bundle ###
+
+###> symfony/mailer ###
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025"
+      - "8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+###< symfony/mailer ###
