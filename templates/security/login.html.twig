@@ -3,9 +3,13 @@
 {% block title %}Log in!{% endblock %}
 
 {% block content %}
-    <form class="form w-100" id="kt_sign_in_form" novalidate="novalidate" method="post" {{ stimulus_controller('auth--sign_in_form', {
-        isLoggedIn: app.user ? true : false
-    }) }}>
+    <form class="form w-100"
+          id="kt_sign_in_form"
+          novalidate="novalidate"
+          method="post"
+          data-controller="auth--sign-in-form"
+          data-auth--sign-in-form-is-logged-in-value="{{ app.user ? 1 : 0 }}"
+    >
         <!--begin::Heading-->
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -69,8 +73,9 @@
         </div>
         <!--end::Wrapper-->
         <div class="d-grid mb-10">
-            <button type="submit" class="btn btn-primary" {{ stimulus_target('auth--sign_in_form', 'submitButton') }}>
-                Sign In</button>
+            <button type="submit" class="btn btn-primary" data-auth--sign-in-form-target="submitButton">
+                Sign In
+            </button>
         </div>
         <!--begin::Sign up-->
         <div class="text-gray-500 text-center fw-semibold fs-6">Not a Member yet?

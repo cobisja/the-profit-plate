@@ -1,20 +1,50 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/admin.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}
+    {% include 'layouts/layout/partials/_page-title.html.twig' with {
+        title: 'FBC',
+        breadcrumbs: [
+            { 'Home': path('app_admin_dashboard') },
+            'Dashboard'
+        ]
+    } %}
+{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/src/Controller/DashboardController.php</code></li>
-        <li>Your template at <code>/var/www/templates/dashboard/index.html.twig</code></li>
-    </ul>
-</div>
+{% block content %}
+{#    <!--begin::Row-->#}
+{#    <div class="row g-5 gx-xl-10 mb-5 mb-xl-10">#}
+{#        <!--begin::Col-->#}
+{#        <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">#}
+{#            {% include 'layouts/partials/widgets/cards/_widget-20.html.twig' %}#}
+{#            {% include 'layouts/partials/widgets/cards/_widget-7.html.twig' %}#}
+{#        </div>#}
+{#        <!--end::Col-->#}
+{#        <!--begin::Col-->#}
+{#        <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">#}
+{#            {% include 'layouts/partials/widgets/cards/_widget-17.html.twig' %}#}
+{#            {% include 'layouts/partials/widgets/lists/_widget-26.html.twig' %}#}
+{#        </div>#}
+{#        <!--end::Col-->#}
+{#        <!--begin::Col-->#}
+{#        <div class="col-xxl-6">#}
+{#            {% include 'layouts/partials/widgets/engage/_widget-10.html.twig' %}#}
+{#        </div>#}
+{#        <!--end::Col-->#}
+{#    </div>#}
+{#    <!--end::Row-->#}
+{#    <!--begin::Row-->#}
+{#    <div class="row gx-5 gx-xl-10">#}
+{#        <!--begin::Col-->#}
+{#        <div class="col-xxl-6 mb-5 mb-xl-10">#}
+{#            {% include 'layouts/partials/widgets/charts/_widget-8.html.twig' %}#}
+{#        </div>#}
+{#        <!--end::Col-->#}
+{#        <!--begin::Col-->#}
+{#        <div class="col-xl-6 mb-5 mb-xl-10">#}
+{#            {% include 'layouts/partials/widgets/tables/_widget-16.html.twig' %}#}
+{#        </div>#}
+{#        <!--end::Col-->#}
+{#    </div>#}
+{#    <!--end::Row-->#}
 {% endblock %}
