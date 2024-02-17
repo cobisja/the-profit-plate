@@ -13,6 +13,16 @@ security:
     main:
       lazy: true
       provider: app_user_provider
+      form_login:
+        username_parameter: email
+        login_path: app_login
+        check_path: app_login
+        enable_csrf: true
+        default_target_path: app_admin_dashboard
+      logout:
+        path: app_logout
+        target: app_frontend_menu
+      access_denied_handler: App\Controller\Security\AccessDeniedHandler
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
@@ -21,8 +31,8 @@ security:
       # switch_user: true
 
   access_control:
-  # - { path: ^/admin, roles: ROLE_ADMIN }
-  # - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/, roles: PUBLIC_ACCESS }
 
 when@test:
   security:

@@ -1,0 +1,80 @@
+{% extends 'layouts/auth.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block content %}
+    <form class="form w-100" id="kt_sign_in_form" novalidate="novalidate" method="post" {{ stimulus_controller('auth--sign_in_form', {
+        isLoggedIn: app.user ? true : false
+    }) }}>
+        <!--begin::Heading-->
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="alert alert-dismissible bg-light-primary d-flex flex-column flex-sm-row w-100 p-5 mb-10">
+                <!--begin::Icon-->
+                <i class="ki-duotone ki-notification-bing fs-2hx text-primary me-4 mb-5 mb-sm-0"
+                ><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                <!--end::Icon-->
+                <!--begin::Content-->
+                <div class="d-flex flex-column pe-0 pe-sm-10 text-center">
+                    <span
+                    >You are logged in as <strong>{{ app.user.userIdentifier }}</strong>,
+                        <a href="{{ path('app_logout') }}">Logout</a></span>
+                </div>
+                <!--end::Content-->
+                <!--begin::Close-->
+                <button type="button"
+                        class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                        data-bs-dismiss="alert"
+                ><i class="ki-duotone ki-cross fs-1 text-primary"
+                    ><span class="path1"></span><span class="path2"></span></i></button>
+                <!--end::Close-->
+            </div>
+        {% endif %}
+        <div class="text-center mb-11">
+            <!--begin::Title-->
+            <h1 class="text-gray-900 fw-bolder mb-3">Sign In</h1>
+            <!--end::Title-->
+            <!--begin::Subtitle-->
+            <div class="text-gray-500 fw-semibold fs-6">Food and Beverages Costing</div>
+            <!--end::Subtitle=-->
+        </div>
+        <!--end::Heading-->
+        <!--begin::Input group=-->
+        <div class="fv-row mb-8">
+            <input type="text"
+                   placeholder="Email"
+                   name="email"
+                   autocomplete="off"
+                   class="form-control bg-transparent"
+            />
+        </div>
+        <!--end::Input group=-->
+        <div class="fv-row mb-3">
+            <input type="password"
+                   placeholder="Password"
+                   name="_password"
+                   autocomplete="off"
+                   class="form-control bg-transparent"
+            />
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+        <!--end::Input group=-->
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
+            <div></div>
+            <a href="#" class="link-primary">Forgot Password ?</a>
+        </div>
+        <!--end::Wrapper-->
+        <div class="d-grid mb-10">
+            <button type="submit" class="btn btn-primary" {{ stimulus_target('auth--sign_in_form', 'submitButton') }}>
+                Sign In</button>
+        </div>
+        <!--begin::Sign up-->
+        <div class="text-gray-500 text-center fw-semibold fs-6">Not a Member yet?
+            <a href="#" class="link-primary">Sign up</a></div>
+        <!--end::Sign up-->
+    </form>
+{% endblock %}

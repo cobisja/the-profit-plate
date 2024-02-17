@@ -2,41 +2,10 @@ version: '3'
 
 services:
 
-  http:
-    container_name: fbc_http
-    image: nginx
-    networks:
-      - fbc_default
-    depends_on:
-      - app
-    ports:
-      - "80"
-    volumes:
-      - .:/var/www
-      - ./docker/nginx/conf/nginx.dev.conf:/etc/nginx/conf.d/default.conf
-
-  app:
-    container_name: fbc_app
-    build:
-      context: docker/app
-      dockerfile: Dockerfile
-    networks:
-      - fbc_default
-    depends_on:
-      - database
-    volumes:
-      - .:/var/www
-      - ./docker/app/conf/php.ini:/usr/local/etc/php/php.ini
-      - ./docker/app/conf/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
-
 ###> doctrine/doctrine-bundle ###
   database:
-    container_name: fbc_database
+#    container_name: fbc_database
     image: mysql:8.3
-    networks:
-      - fbc_default
-    ports:
-      - "3306"
     environment:
       - MYSQL_DATABASE=fbc
       - MYSQL_ROOT_PASSWORD=passwd
@@ -48,6 +17,3 @@ volumes:
 ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
-
-networks:
-  fbc_default:
