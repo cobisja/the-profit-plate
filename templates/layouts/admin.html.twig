@@ -17,7 +17,9 @@
 
         <script src="{{ asset('templates/plugins/global/plugins.bundle.js') }}"></script>
         <script src="{{ asset('templates/js/scripts.bundle.js') }}"></script>
-
+{#        <script type="module">#}
+{#            import "{{ asset('custom-components/js/custom-components.js') }}";#}
+{#        </script>#}
         <script>
             // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking)
             if (window.top != window.self) {

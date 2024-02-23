@@ -1,0 +1,55 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}FBC - Recipe types{% endblock %}
+
+{% block page_title %}
+    {% include 'layouts/layout/partials/_page-title.html.twig' with {
+        title: 'FBC',
+        breadcrumbs: [
+            { 'Home': path('app_admin_dashboard') },
+            'Recipe types'
+        ]
+    } %}
+{% endblock %}
+
+{% block content %}
+    <div class="row g-7">
+        <div class="offset-lg-1 col-lg-6 col-xl-9">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3 class="card-title">Recipe Types</h3>
+                    <div class="card-toolbar">
+                        <button type="button" class="btn btn-sm btn-light-primary">
+                            New Recipe Type
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body pt-9 pb-9">
+                    <div class="table-responsive">
+                        <table id="kt_datatable_zero_configuration"
+                               class="make-datatable table table-row-bordered gy-5"
+                               data-exclude-sort-columns="3"
+                               data-length-menu="[5,10]"
+                        >
+                            <thead>
+                            <tr class="fw-semibold fs-6 text-muted">
+                                <th>Name</th>
+                                <th>Expenses percentage</th>
+                                <th>Profit percentage</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for recipeType in recipeTypes %}
+                                <tr>
+                                    {% include 'admin/recipe_types/_recipe-type.html.twig' with { recipeType } %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
