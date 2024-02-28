@@ -13,8 +13,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row g-7">
-        <div class="offset-lg-1 col-lg-6 col-xl-9">
+    <div class="row g-7"
+         data-controller="admin--shared--modal-form"
+         data-admin--shared--modal-form-reload-content-url-value="{{ path('app_admin_recipe_types_index') }}"
+    >
+        <div class="col-lg-6 col-xl-12">
             <div class="card mb-6">
                 <div class="card-header">
                     <h3 class="card-title">Recipe Types</h3>
@@ -26,8 +29,8 @@
                 </div>
                 <div class="card-body pt-9 pb-9">
                     <div class="table-responsive">
-                        <table id="kt_datatable_zero_configuration"
-                               class="make-datatable table table-row-bordered gy-5"
+                        <table class="table table-row-bordered gy-5"
+                               id="example-table"
                                data-exclude-sort-columns="3"
                                data-length-menu="[5,10]"
                         >
@@ -36,20 +39,31 @@
                                 <th>Name</th>
                                 <th>Expenses percentage</th>
                                 <th>Profit percentage</th>
-                                <th></th>
+                                <th scope="col" class="col-2"></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            {% for recipeType in recipeTypes %}
-                                <tr>
-                                    {% include 'admin/recipe_types/_recipe-type.html.twig' with { recipeType } %}
-                                </tr>
-                            {% endfor %}
+                            <tbody data-admin--shared--modal-form-target="updatableContent">
+                            {% include 'admin/recipe_types/_recipe-type.html.twig' with { recipeTypes } %}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+        <!--start::Shared Modal container -->
+        {% include 'shared/_modal-form.html.twig' with { modal_title: 'Recipe Type'} %}
+        <!--end::Shared Modal container -->
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="module">
+        import DataTable from "datatables.net-bs5"
+
+        new DataTable("table", {
+            columnDefs: [{ orderable: false, targets: 3 }],
+            order: [[0, 'asc']]
+        });
+    </script>
 {% endblock %}

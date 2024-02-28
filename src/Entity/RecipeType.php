@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeTypeRepository::class)]
 #[ORM\Table(name: 'recipe_types')]
@@ -21,12 +22,17 @@ class RecipeType
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank()]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, options: ['unsigned' => true, 'default' => 0])]
+    #[Assert\NotBlank()]
+    #[Assert\PositiveOrZero()]
     private ?string $expensesPercentage = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, options: ['unsigned' => true, 'default' => 0])]
+    #[Assert\NotBlank()]
+    #[Assert\PositiveOrZero()]
     private ?string $profitPercentage = null;
 
     #[ORM\OneToMany(targetEntity: Recipe::class, mappedBy: 'recipeType')]
@@ -42,37 +48,32 @@ class RecipeType
         return $this->id;
     }
 
-    public function setId(Uuid $id): void
-    {
-        $this->id = $id;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function getExpensesPercentage(): ?float
+    public function getExpensesPercentage(): ?string
     {
-        return (float)$this->expensesPercentage;
+        return $this->expensesPercentage;
     }
 
-    public function setExpensesPercentage(string $expensesPercentage): void
+    public function setExpensesPercentage(?string $expensesPercentage): void
     {
         $this->expensesPercentage = $expensesPercentage;
     }
 
-    public function getProfitPercentage(): ?float
+    public function getProfitPercentage(): ?string
     {
-        return (float)$this->profitPercentage;
+        return $this->profitPercentage;
     }
 
-    public function setProfitPercentage(string $profitPercentage): void
+    public function setProfitPercentage(?string $profitPercentage): void
     {
         $this->profitPercentage = $profitPercentage;
     }
@@ -98,7 +99,6 @@ class RecipeType
     public function removeRecipe(Recipe $recipe): static
     {
         if ($this->recipes->removeElement($recipe)) {
-            // set the owning side to null (unless already changed)
             if ($recipe->getRecipeType() === $this) {
                 $recipe->setRecipeType(null);
             }

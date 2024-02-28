@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service\Admin\RecipeType;
 
 use App\Entity\RecipeType;
@@ -16,6 +18,6 @@ readonly class RecipeTypeIndexService
      */
     public function execute(): array
     {
-        return $this->recipeTypeRepository->findAll();
+        return $this->recipeTypeRepository->findBy(criteria: [], orderBy: ['name' => 'ASC']);
     }
 }
