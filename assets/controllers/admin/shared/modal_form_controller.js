@@ -4,28 +4,31 @@ import { Modal } from "bootstrap";
 export default class extends Controller {
   static values = {
     reloadContentUrl: String,
+    editAction: Boolean,
   };
 
-  static targets = ["updatableContent", "modalForm", "modalBody"];
+  static targets = ["currentRow", "updatableContent", "modalForm", "modalBody"];
 
   modal = null;
+  currentRowIndex = null;
 
   async openModal(event) {
     event.preventDefault();
 
-    console.log($(event.currentTarget).attr("href"));
-
     this.modalBodyTarget.innerHTML = "Loading...";
     this.modal = new Modal(this.modalFormTarget);
+    this.currentRowIndex = $(event.currentTarget)
+      .closest("tr")
+      .data("row-index");
 
     this.modal.show();
+
     this.modalBodyTarget.innerHTML = await $.ajax(
       $(event.currentTarget).attr("href"),
     );
   }
 
   async submitForm(event) {
-    console.log(event);
     event.preventDefault();
 
     const form = $(this.modalBodyTarget).find("form");
@@ -35,14 +38,16 @@ export default class extends Controller {
       method: form.prop("method"),
       data: form.serialize(),
     })
-      .then(() => this.closeModal())
-      .catch((err) => (this.modalBodyTarget.innerHTML = err.responseText));
-  }
+      .then((response) => {
+        this.modal.hide();
 
-  async closeModal() {
-    await $.get(this.reloadContentUrlValue).then((response) => {
-      this.modal.hide();
-      this.updatableContentTarget.innerHTML = response;
-    });
+        let table = $("table").DataTable();
+        let row = table.row(this.currentRowIndex);
+
+        -1 !== this.currentRowIndex
+          ? row.data(response).draw(false)
+          : table.row.add(response).draw();
+      })
+      .catch((err) => (this.modalBodyTarget.innerHTML = err.responseText));
   }
 }

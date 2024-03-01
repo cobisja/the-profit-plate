@@ -1,14 +1,15 @@
 {% for recipeType in recipeTypes %}
-    <tr>
-        <td>{{ recipeType.name }}</td>
+    <tr data-row-index="{{ loop.index0 }}">
+        <td>{{ recipeType.name|capitalize }}</td>
         <td>{{ recipeType.expensesPercentage }}</td>
         <td>{{ recipeType.profitPercentage }}</td>
-        <td class="text-end">
+        <td>
             <a href="{{ path('app_admin_recipe_types_edit', { id: recipeType.id }) }}"
-               class="btn btn-sm btn-light-primary me-2 mb-2"
+               class="btn btn-sm btn-light-primary ms-lg-5"
                data-action="admin--shared--modal-form#openModal"
+               data-admin--shared--modal-form-edit-action-value="true"
             >Edit</a>
-            <a href="#" class="btn btn-sm btn-light-danger me-2 mb-2">Delete</a>
+            <a href="#" class="btn btn-sm btn-light-danger">Delete</a>
         </td>
     </tr>
 {% endfor %}

@@ -36,7 +36,13 @@ class RecipeTypeEditController extends AbstractController
                 $entityManager->flush();
 
                 if ($request->isXmlHttpRequest()) {
-                    return new Response(null, Response::HTTP_OK);
+                    $response = [
+                        ucfirst($recipeType->getName()),
+                        number_format((float)$recipeType->getExpensesPercentage(), 2),
+                        number_format((float)$recipeType->getProfitPercentage(), 2),
+                        $this->actionButtons([$request->getRequestUri()])
+                    ];
+                    return $this->json($response);
                 }
 
                 return $this->redirectToRoute('app_admin_recipe_types_index');
@@ -53,5 +59,18 @@ class RecipeTypeEditController extends AbstractController
 
             return $this->redirectToRoute('app_admin_recipe_types_index');
         }
+    }
+
+    private function actionButtons(array $routes): string
+    {
+        return sprintf(
+            <<<HTML
+            <a href="%s"
+               class="btn btn-sm btn-light-primary ms-lg-5"
+               data-action="admin--shared--modal-form#openModal">Edit</a>
+            <a href="#" class="btn btn-sm btn-light-danger">Delete</a>
+            HTML,
+            $routes[0]
+        );
     }
 }
