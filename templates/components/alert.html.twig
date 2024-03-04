@@ -1,0 +1,36 @@
+<div class="alert {{ dismissible ? 'alert-dismissible' : '' }} bg-light-{{ this.className }} border border-{{ this.className }} d-flex flex-column flex-sm-row w-100 p-5 mb-10">
+    <!--begin::Icon-->
+    <i class="ki-duotone {{ this.icon }} fs-2hx text-{{ this.className }} me-4 mb-5 mb-sm-0"
+    ><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+    <!--end::Icon-->
+
+    <!--begin::Content-->
+    <div class="d-flex flex-column pe-0 pe-sm-10">
+        {% if title %}
+            <h4 class="fw-semibold">{{ title }}</h4>
+        {% endif %}
+        {% if not message is iterable %}
+            <span>{{ message }}</span>
+        {% elseif message is iterable and message|length is same as(1) %}
+            <span>{{ message|first }}</span>
+        {% else %}
+            <ul>
+                {% for text in message %}
+                    <li>{{ text }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <!--end::Content-->
+
+    {% if dismissible %}
+        <!--begin::Close-->
+        <button type="button"
+                class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                data-bs-dismiss="alert"
+        ><i class="ki-duotone ki-cross fs-1 text-{{ this.className }}"><span class="path1"></span><span
+                        class="path2"></span></i>
+        </button>
+    {% endif %}
+    <!--end::Close-->
+</div>

@@ -26,10 +26,9 @@
                            class="btn btn-sm btn-light-primary"
                            data-action="admin--shared--modal-form#openModal"
                            data-admin--shared--modal-form-edit-action-value="false"
-                        >
-                            New Recipe Type
-                        </a>
+                        >New Recipe Type</a>
                     </div>
+                    {% include 'shared/_flash-messages.html.twig' %}
                 </div>
                 <div class="card-body pt-9 pb-9">
                     <div class="table-responsive">
@@ -40,7 +39,7 @@
                         >
                             <thead>
                             <tr class="fw-semibold fs-6 text-muted">
-                                <th>Name</th>
+                                <th scope="col" class="col-4">Name</th>
                                 <th>Expenses percentage(%)</th>
                                 <th>Profit percentage(%)</th>
                                 <th scope="col" class="col-2"></th>

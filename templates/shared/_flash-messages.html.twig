@@ -1,0 +1,13 @@
+{% set messages = app.flashes %}
+
+{% if messages['notice']|default([])|length > 0 %}
+    <twig:alert type="success" :message="messages['notice']"/>
+{% endif %}
+
+{% if messages['success']|default([])|length > 0 %}
+    <twig:alert type="success" :message="messages['success']"/>
+{% endif %}
+
+{% if messages['error']|default([])|length > 0 %}
+    <twig:alert type="error" title="The task could not be completed" :message="messages['error']"/>
+{% endif %}

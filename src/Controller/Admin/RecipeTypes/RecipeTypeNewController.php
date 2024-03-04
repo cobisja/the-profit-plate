@@ -6,6 +6,7 @@ namespace App\Controller\Admin\RecipeTypes;
 
 use App\Entity\RecipeType;
 use App\Form\RecipeTypeFormType;
+use App\Service\Admin\Shared\ActionButtonRendererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,8 +17,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin')]
 class RecipeTypeNewController extends AbstractController
 {
+    public function __construct(
+        private readonly ActionButtonRendererService $actionButtonRendererService,
+        private readonly EntityManagerInterface $entityManager
+    ) {
+    }
+
     #[Route('/recipe_types/new', name: 'app_admin_recipe_types_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): RedirectResponse|Response
+    public function new(Request $request): RedirectResponse|Response
     {
         $recipeType = new RecipeType();
         $form = $this->createForm(RecipeTypeFormType::class, $recipeType, [
@@ -27,17 +34,18 @@ class RecipeTypeNewController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($recipeType);
-            $entityManager->flush();
+            $this->entityManager->persist($recipeType);
+            $this->entityManager->flush();
 
             if ($request->isXmlHttpRequest()) {
                 $response = [
                     ucfirst($recipeType->getName()),
                     number_format((float)$recipeType->getExpensesPercentage(), 2),
                     number_format((float)$recipeType->getProfitPercentage(), 2),
-                    $this->actionButtons([
-                        $this->generateUrl('app_admin_recipe_types_edit', ['id' => $recipeType->getId()])
-                    ])
+                    $this->actionButtonRendererService->execute([
+                        $this->generateUrl('app_admin_recipe_types_edit', ['id' => $recipeType->getId()]),
+                        $this->generateUrl('app_admin_recipe_types_delete', ['id' => $recipeType->getId()]),
+                    ], (string)$recipeType->getId())
                 ];
 
                 return $this->json($response, Response::HTTP_CREATED);
@@ -52,18 +60,5 @@ class RecipeTypeNewController extends AbstractController
             'recipeType' => $recipeType,
             'form' => $form->createView()
         ], new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_CREATED));
-    }
-
-    private function actionButtons(array $routes): string
-    {
-        return sprintf(
-            <<<HTML
-            <a href="%s"
-               class="btn btn-sm btn-light-primary ms-lg-5"
-               data-action="admin--shared--modal-form#openModal">Edit</a>
-            <a href="#" class="btn btn-sm btn-light-danger">Delete</a>
-            HTML,
-            $routes[0]
-        );
     }
 }

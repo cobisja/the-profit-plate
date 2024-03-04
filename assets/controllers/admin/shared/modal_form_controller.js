@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import { Modal } from "bootstrap";
+import Swal from "sweetalert2";
+import $ from "jquery";
 
 export default class extends Controller {
   static values = {
@@ -15,17 +17,22 @@ export default class extends Controller {
   async openModal(event) {
     event.preventDefault();
 
-    this.modalBodyTarget.innerHTML = "Loading...";
-    this.modal = new Modal(this.modalFormTarget);
-    this.currentRowIndex = $(event.currentTarget)
-      .closest("tr")
-      .data("row-index");
+    await $.ajax($(event.currentTarget).attr("href"))
+      .then((response) => {
+        this.modalBodyTarget.innerHTML = "Loading...";
+        this.modal = new Modal(this.modalFormTarget);
+        this.currentRowIndex = $(event.target).closest("tr").data("row-index");
+        this.modal.show();
 
-    this.modal.show();
-
-    this.modalBodyTarget.innerHTML = await $.ajax(
-      $(event.currentTarget).attr("href"),
-    );
+        this.modalBodyTarget.innerHTML = response;
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "An error has occurred",
+          text: err.responseText,
+          icon: "error",
+        });
+      });
   }
 
   async submitForm(event) {
@@ -44,9 +51,13 @@ export default class extends Controller {
         let table = $("table").DataTable();
         let row = table.row(this.currentRowIndex);
 
-        -1 !== this.currentRowIndex
-          ? row.data(response).draw(false)
-          : table.row.add(response).draw();
+        if (-1 !== this.currentRowIndex) {
+          row.data(response).draw(false);
+        } else {
+          table.row.add(response).draw();
+        }
+
+        Swal.fire({ text: "The task was completed!", icon: "success" });
       })
       .catch((err) => (this.modalBodyTarget.innerHTML = err.responseText));
   }

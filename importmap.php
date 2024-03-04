@@ -53,4 +53,7 @@ return [
     'datatables.net' => [
         'version' => '2.0.0',
     ],
+    'sweetalert2' => [
+        'version' => '11.10.5',
+    ],
 ];
