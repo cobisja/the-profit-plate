@@ -33,6 +33,7 @@ use Zenstruck\Foundry\RepositoryProxy;
 final class UserFactory extends ModelFactory
 {
     final public const DEFAULT_ADMIN_PASSWORD = '123456';
+    final public const DEFAULT_ADMIN_EMAIL = 'admin@example.org';
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -53,7 +54,7 @@ final class UserFactory extends ModelFactory
     {
         return [
             'createdAt' => DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'email' => self::faker()->safeEmail(),
+            'email' => self::DEFAULT_ADMIN_EMAIL,
             'lastname' => self::faker()->lastName(),
             'name' => self::faker()->name(),
             'password' => password_hash(self::DEFAULT_ADMIN_PASSWORD, PASSWORD_DEFAULT),
