@@ -15,7 +15,7 @@
 {% block content %}
     <div class="row g-7"
          data-controller="admin--shared--modal-form"
-         data-admin--shared--modal-form-reload-content-url-value="{{ path('app_admin_recipe_types_index') }}"
+         data-admin--shared--modal-form-full-reload-required-value="1"
     >
         <div class="offset-lg-2 col-lg-8 offset-md-3 col-md-6 offset-xl-3 col-xl-6">
             <div class="card mb-6">
@@ -25,28 +25,25 @@
                         <a href="{{ path('app_admin_recipe_types_new') }}"
                            class="btn btn-sm btn-light-primary"
                            data-action="admin--shared--modal-form#openModal"
-                           data-admin--shared--modal-form-edit-action-value="false"
                         >New Product Type</a>
                     </div>
                     {% include 'shared/_flash-messages.html.twig' %}
                 </div>
                 <div class="card-body pt-9 pb-9">
                     {% if productTypes|length %}
-                    <div class="table-responsive">
-                        <table class="table table-row-bordered gy-5">
-                            <thead>
-                            <tr class="fw-semibold fs-6 text-muted">
-                                <th>Name</th>
-                                <th scope="col" class="col-xl-4"></th>
-                            </tr>
-                            </thead>
-                            <tbody data-admin--shared--modal-form-target="updatableContent">
-                            {% for productType in productTypes %}
-                                {% include 'admin/product_types/_product-type.html.twig' with { productType } %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                        <div class="table-responsive">
+                            <table class="table table-row-bordered gy-5">
+                                <thead>
+                                <tr class="fw-semibold fs-6 text-muted">
+                                    <th>Name</th>
+                                    <th scope="col" class="col-xl-4"></th>
+                                </tr>
+                                </thead>
+                                <tbody data-admin--shared--modal-form-target="updatableContent">
+                                {% include 'admin/product_types/_product-type.html.twig' with { productTypes } %}
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
                         <twig:alert type="info" message="No data found!" dismissible="0"/>
                     {% endif %}

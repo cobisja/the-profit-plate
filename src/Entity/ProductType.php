@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductTypeRepository::class)]
 #[ORM\Table(name: 'product_types')]
@@ -20,6 +21,7 @@ class ProductType
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank()]
     private ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'productType')]
@@ -35,17 +37,12 @@ class ProductType
         return $this->id;
     }
 
-    public function setId(Uuid $id): void
-    {
-        $this->id = $id;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }

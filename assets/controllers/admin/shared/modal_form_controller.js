@@ -5,8 +5,7 @@ import $ from "jquery";
 
 export default class extends Controller {
   static values = {
-    reloadContentUrl: String,
-    editAction: Boolean,
+    fullReloadRequired: { type: Boolean, default: false },
   };
 
   static targets = ["currentRow", "updatableContent", "modalForm", "modalBody"];
@@ -40,25 +39,44 @@ export default class extends Controller {
 
     const form = $(this.modalBodyTarget).find("form");
 
-    await $.ajax({
+    let options = {
       url: form.prop("action"),
       method: form.prop("method"),
       data: form.serialize(),
-    })
+    };
+
+    /**
+     * No DataTables, requires render the whole tbody content
+     */
+    if (this.fullReloadRequiredValue) {
+      options.headers = { "full-reload": 1 };
+    }
+
+    await $.ajax(options)
       .then((response) => {
         this.modal.hide();
 
-        let table = $("table").DataTable();
-        let row = table.row(this.currentRowIndex);
-
-        if (-1 !== this.currentRowIndex) {
-          row.data(response).draw(false);
-        } else {
-          table.row.add(response).draw();
-        }
+        !this.fullReloadRequiredValue
+          ? this.addOrUpdateRow(response)
+          : this.redrawTableBody(response);
 
         Swal.fire({ text: "The task was completed!", icon: "success" });
       })
       .catch((err) => (this.modalBodyTarget.innerHTML = err.responseText));
+  }
+
+  addOrUpdateRow(response) {
+    let table = $("table").DataTable();
+    let row = table.row(this.currentRowIndex);
+
+    if (-1 !== this.currentRowIndex) {
+      row.data(response).draw(false);
+    } else {
+      table.row.add(response).draw();
+    }
+  }
+
+  redrawTableBody(response) {
+    this.updatableContentTarget.innerHTML = response;
   }
 }

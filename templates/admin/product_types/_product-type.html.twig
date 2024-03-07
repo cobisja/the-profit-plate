@@ -1,11 +1,8 @@
+{% for productType in productTypes %}
     <tr data-row-index="{{ loop.index0 }}">
         <td>{{ productType.name|capitalize }}</td>
         <td>
-            <a href="{{ path('app_admin_recipe_types_edit', { id: productType.id }) }}"
-               class="btn btn-sm btn-light-primary ms-lg-5 float-start"
-               data-action="admin--shared--modal-form#openModal"
-               data-admin--shared--modal-form-edit-action-value="true"
-            >Edit</a>
+            <twig:edit-button url="{{ path('app_admin_product_types_edit', { id: productType.id }) }}"/>
             <twig:delete-button
                     url=""
                     csrfTokenId="{{ csrf_token('delete' ~ productType.id) }}"
@@ -13,3 +10,4 @@
             />
         </td>
     </tr>
+{% endfor %}
