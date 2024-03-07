@@ -1,0 +1,11 @@
+<form method="post"
+      action="{{ url }}"
+      data-controller="admin--shared--delete-item"
+      data-action="admin--shared--delete-item#showAlert"
+>
+    <input type="hidden" name="_token" value="{{ csrfTokenId }}">
+    {% if not httpMethod is same as('post') %}
+        <input type="hidden" name="_method" value="{{ httpMethod }}">
+    {% endif %}
+    <button class="btn btn-sm btn-light-danger ms-lg-5">Delete</button>
+</form>

@@ -1,0 +1,19 @@
+{% for recipeType in recipeTypes %}
+    <tr data-row-index="{{ loop.index0 }}">
+        <td>{{ recipeType.name|capitalize }}</td>
+        <td>{{ recipeType.expensesPercentage }}</td>
+        <td>{{ recipeType.profitPercentage }}</td>
+        <td>
+            <a href="{{ path('app_admin_recipe_types_edit', { id: recipeType.id }) }}"
+               class="btn btn-sm btn-light-primary ms-lg-5 float-start"
+               data-action="admin--shared--modal-form#openModal"
+               data-admin--shared--modal-form-edit-action-value="true"
+            >Edit</a>
+            <twig:delete-button
+                    url="{{ path('app_admin_recipe_types_delete', { id: recipeType.id }) }}"
+                    csrfTokenId="{{ csrf_token('delete' ~ recipeType.id) }}"
+                    method="delete"
+            />
+        </td>
+    </tr>
+{% endfor %}
