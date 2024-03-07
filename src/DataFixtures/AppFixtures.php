@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Factory\ProductTypeFactory;
 use App\Factory\RecipeTypeFactory;
 use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -13,5 +14,6 @@ class AppFixtures extends Fixture
     {
         UserFactory::createOne();
         RecipeTypeFactory::createMany(5);
+        ProductTypeFactory::createMany(5);
     }
 }

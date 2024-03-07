@@ -12,7 +12,11 @@
     >
         <!--begin::Heading-->
         {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <twig:alert
+                    type="error"
+                    title="Login error"
+                    message="{{ error.messageKey|trans(error.messageData, 'security') }}"
+            />
         {% endif %}
 
         {% if app.user %}
