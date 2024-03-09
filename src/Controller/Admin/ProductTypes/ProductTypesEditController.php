@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\RecipeTypes;
+namespace App\Controller\Admin\ProductTypes;
 
-use App\Exception\RecipeType\RecipeTypeNotFoundException;
-use App\Form\RecipeTypeFormType;
-use App\Service\Admin\RecipeType\RecipeTypeShowService;
+use App\Exception\ProductType\ProductTypeNotFoundException;
+use App\Form\ProductTypeFormType;
+use App\Service\Admin\ProductType\ProductTypeShowService;
 use App\Service\Admin\Shared\ActionButtonRendererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,21 +19,21 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 #[Route('/admin')]
-class RecipeTypeEditController extends AbstractController
+class ProductTypesEditController extends AbstractController
 {
     public function __construct(
-        private readonly RecipeTypeShowService $recipeTypeShowService,
+        private readonly ProductTypeShowService $productTypeShowService,
         private readonly ActionButtonRendererService $actionButtonRendererService,
         private readonly EntityManagerInterface $entityManager
     ) {
     }
 
-    #[Route('/recipe_types/{id}/edit', name: 'app_admin_recipe_types_edit', methods: ['GET', 'POST'])]
+    #[Route('/product_types/{id}/edit', name: 'app_admin_product_types_edit', methods: ['GET', 'POST'])]
     public function edit(string $id, Request $request): RedirectResponse|Response
     {
         try {
-            $recipeType = $this->recipeTypeShowService->execute($id);
-            $form = $this->createForm(RecipeTypeFormType::class, $recipeType, [
+            $productType = $this->productTypeShowService->execute($id);
+            $form = $this->createForm(ProductTypeFormType::class, $productType, [
                 'action' => $request->getRequestUri()
             ]);
 
@@ -44,37 +44,35 @@ class RecipeTypeEditController extends AbstractController
 
                 if ($request->isXmlHttpRequest()) {
                     $response = [
-                        ucfirst($recipeType->getName()),
-                        number_format((float)$recipeType->getExpensesPercentage(), 2),
-                        number_format((float)$recipeType->getProfitPercentage(), 2),
+                        ucfirst($productType->getName()),
                         $this->actionButtonRendererService->execute([
                             $request->getRequestUri(),
                             $this->generateUrl('app_admin_recipe_types_delete', compact('id'))
-                        ], (string)$recipeType->getId())
+                        ], (string)$productType->getId())
                     ];
 
-                    return $this->json($response);
+                    return $this->json($response, Response::HTTP_OK);
                 }
 
-                $this->addFlash('success', 'Recipe Type updated');
+                $this->addFlash('success', 'Product Type updated');
 
-                return $this->redirectToRoute('app_admin_recipe_types_index');
+                return $this->redirectToRoute('app_admin_product_types_index');
             }
 
             $template = $request->isXmlHttpRequest() ? '_form.html.twig' : 'edit.html.twig';
 
-            return $this->render('admin/recipe_types/' . $template, [
-                'recipeType' => $recipeType,
+            return $this->render('admin/product_types/' . $template, [
+                'productType' => $productType,
                 'form' => $form->createView()
             ], new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK));
-        } catch (RecipeTypeNotFoundException|LoaderError|SyntaxError|RuntimeError $exception) {
+        } catch (ProductTypeNotFoundException|LoaderError|SyntaxError|RuntimeError $exception) {
             if ($request->isXmlHttpRequest()) {
                 return new Response($exception->getMessage(), Response::HTTP_BAD_REQUEST);
             }
 
             $this->addFlash('error', $exception->getMessage());
 
-            return $this->redirectToRoute('app_admin_recipe_types_index');
+            return $this->redirectToRoute('app_admin_product_types_index');
         }
     }
 }

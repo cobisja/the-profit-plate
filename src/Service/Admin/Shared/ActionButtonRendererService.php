@@ -6,6 +6,9 @@ namespace App\Service\Admin\Shared;
 
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class ActionButtonRendererService
 {
@@ -15,16 +18,16 @@ class ActionButtonRendererService
     ) {
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function execute(array $routes, string $entityId): string
     {
-        $buttons = sprintf(
-            <<<HTML
-            <a href="%s"
-               class="btn btn-sm btn-light-primary ms-lg-5 float-start"
-               data-action="admin--shared--modal-form#openModal">Edit</a>
-            HTML,
-            $routes[0]
-        );
+        $buttons = $this->twig->render('components/edit-button.html.twig', [
+            'url' => $routes[0]
+        ]);
 
         $buttons .= $this->twig->render('components/delete-button.html.twig', [
             'url' => $routes[1],

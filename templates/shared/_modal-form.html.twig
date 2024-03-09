@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" id="kt_modal_1" data-admin--shared--modal-form-target="modalForm">
+<div class="modal fade" tabindex="-1" data-admin--shared--modal-form-target="modalForm">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
 
             <div class="modal-body"
                  data-admin--shared--modal-form-target="modalBody"
-                 data-action="admin--shared--modal-form#submitForm"
+                 data-action="submit->admin--shared--modal-form#submitForm"
             >
                 {{ modal_content|default('Loading...') }}
             </div>

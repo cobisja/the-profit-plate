@@ -4,12 +4,7 @@ import Swal from "sweetalert2";
 import $ from "jquery";
 
 export default class extends Controller {
-  static values = {
-    reloadContentUrl: String,
-    editAction: Boolean,
-  };
-
-  static targets = ["currentRow", "updatableContent", "modalForm", "modalBody"];
+  static targets = ["currentRow", "modalForm", "modalBody"];
 
   modal = null;
   currentRowIndex = null;
@@ -40,21 +35,29 @@ export default class extends Controller {
 
     const form = $(this.modalBodyTarget).find("form");
 
-    await $.ajax({
+    let options = {
       url: form.prop("action"),
       method: form.prop("method"),
       data: form.serialize(),
-    })
+    };
+
+    await $.ajax(options)
       .then((response) => {
         this.modal.hide();
 
-        let table = $("table").DataTable();
-        let row = table.row(this.currentRowIndex);
-
         if (-1 !== this.currentRowIndex) {
-          row.data(response).draw(false);
+          this.dispatch("item-updated", {
+            detail: {
+              rowIndex: this.currentRowIndex,
+              rowData: response,
+            },
+          });
         } else {
-          table.row.add(response).draw();
+          this.dispatch("item-added", {
+            detail: {
+              rowData: response,
+            },
+          });
         }
 
         Swal.fire({ text: "The task was completed!", icon: "success" });

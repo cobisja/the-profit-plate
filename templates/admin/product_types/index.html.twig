@@ -1,13 +1,13 @@
 {% extends 'layouts/admin.html.twig' %}
 
-{% block title %}FBC - Recipe types{% endblock %}
+{% block title %}FBC - Product types{% endblock %}
 
 {% block page_title %}
     {% include 'layouts/layout/partials/_page-title.html.twig' with {
         title: 'FBC',
         breadcrumbs: [
             { 'Home': path('app_admin_dashboard') },
-            'Recipe types'
+            'Product types'
         ]
     } %}
 {% endblock %}
@@ -15,58 +15,41 @@
 {% block content %}
     <div class="row g-7"
          data-controller="admin--shared--table-updater admin--shared--modal-form"
-         data-admin--shared--table-updater-full-reload-url-value="{{ path('app_admin_recipe_types_index') }}"
+         data-admin--shared--table-updater-full-reload-url-value="{{ path('app_admin_product_types_index') }}"
          data-action="admin--shared--modal-form:item-added->admin--shared--table-updater#addRow admin--shared--modal-form:item-updated->admin--shared--table-updater#updateRow admin--shared--delete-item-button:item-deleted->admin--shared--table-updater#deleteRow"
     >
-        <div class="col-lg-6 col-xl-12">
+        <div class="offset-lg-2 col-lg-8 offset-md-3 col-md-6 offset-xl-3 col-xl-6">
             <div class="card mb-6">
                 <div class="card-header">
-                    <h3 class="card-title">Recipe Types</h3>
+                    <h3 class="card-title">Product Types</h3>
                     <div class="card-toolbar">
-                        <a href="{{ path('app_admin_recipe_types_new') }}"
+                        <a href="{{ path('app_admin_product_types_new') }}"
                            class="btn btn-sm btn-light-primary"
                            data-action="admin--shared--modal-form#openModal"
-                        >New Recipe Type</a>
+                        >New Product Type</a>
                     </div>
                     {% include 'shared/_flash-messages.html.twig' %}
                 </div>
                 <div class="card-body pt-9 pb-9">
                     <div class="table-responsive">
-                        <table class="table table-row-bordered gy-5"
-                               id="recipe-types-table"
-                               data-exclude-sort-columns="3"
-                               data-length-menu="[5,10]"
-                        >
+                        <table class="table table-row-bordered gy-5">
                             <thead>
                             <tr class="fw-semibold fs-6 text-muted">
-                                <th scope="col" class="col-4">Name</th>
-                                <th>Expenses percentage(%)</th>
-                                <th>Profit percentage(%)</th>
-                                <th scope="col" class="col-2"></th>
+                                <th>Name</th>
+                                <th scope="col" class="col-xl-4"></th>
                             </tr>
                             </thead>
                             <tbody data-admin--shared--table-updater-target="updatableContent">
-                            {% include 'admin/recipe_types/_recipe-types.html.twig' with { recipeTypes } %}
+                            {% include 'admin/product_types/_product-types.html.twig' with { productTypes } %}
                             </tbody>
                         </table>
                     </div>
+                    <!--start::Shared Modal container -->
+                    {% include 'shared/_modal-form.html.twig' with { modal_title: 'Product Type' } %}
+                    <!--end::Shared Modal container -->
                 </div>
             </div>
         </div>
-        <!--start::Shared Modal container -->
-        {% include 'shared/_modal-form.html.twig' with { modal_title: 'Recipe Type'} %}
-        <!--end::Shared Modal container -->
+
     </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-
-    <script type="module">
-        import DataTable from "datatables.net-bs5"
-
-        new DataTable("table", {
-            columnDefs: [{orderable: false, targets: 3}],
-            order: [[0, 'asc']]
-        });
-    </script>
 {% endblock %}

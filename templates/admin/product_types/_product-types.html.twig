@@ -1,0 +1,19 @@
+{% for productType in productTypes %}
+    <tr data-row-index="{{ loop.index0 }}">
+        <td>{{ productType.name|capitalize }}</td>
+        <td>
+            <twig:edit-button url="{{ path('app_admin_product_types_edit', { id: productType.id }) }}"/>
+            <twig:delete-button
+                    url="{{ path('app_admin_product_types_delete', { id: productType.id }) }}"
+                    csrfTokenId="{{ csrf_token('delete' ~ productType.id) }}"
+                    method="delete"
+            />
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="2">
+            <twig:alert type="info" message="No data found!" dismissible="0"/>
+        </td>
+    </tr>
+{% endfor %}
