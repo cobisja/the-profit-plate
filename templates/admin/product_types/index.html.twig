@@ -14,15 +14,16 @@
 
 {% block content %}
     <div class="row g-7"
-         data-controller="admin--shared--modal-form"
-         data-admin--shared--modal-form-full-reload-required-value="1"
+         data-controller="admin--shared--table-updater admin--shared--modal-form"
+         data-admin--shared--table-updater-full-reload-url-value="{{ path('app_admin_product_types_index') }}"
+         data-action="admin--shared--modal-form:item-added->admin--shared--table-updater#addRow admin--shared--modal-form:item-updated->admin--shared--table-updater#updateRow admin--shared--delete-item-button:item-deleted->admin--shared--table-updater#deleteRow"
     >
         <div class="offset-lg-2 col-lg-8 offset-md-3 col-md-6 offset-xl-3 col-xl-6">
             <div class="card mb-6">
                 <div class="card-header">
                     <h3 class="card-title">Product Types</h3>
                     <div class="card-toolbar">
-                        <a href="{{ path('app_admin_recipe_types_new') }}"
+                        <a href="{{ path('app_admin_product_types_new') }}"
                            class="btn btn-sm btn-light-primary"
                            data-action="admin--shared--modal-form#openModal"
                         >New Product Type</a>
@@ -30,28 +31,25 @@
                     {% include 'shared/_flash-messages.html.twig' %}
                 </div>
                 <div class="card-body pt-9 pb-9">
-                    {% if productTypes|length %}
-                        <div class="table-responsive">
-                            <table class="table table-row-bordered gy-5">
-                                <thead>
-                                <tr class="fw-semibold fs-6 text-muted">
-                                    <th>Name</th>
-                                    <th scope="col" class="col-xl-4"></th>
-                                </tr>
-                                </thead>
-                                <tbody data-admin--shared--modal-form-target="updatableContent">
-                                {% include 'admin/product_types/_product-type.html.twig' with { productTypes } %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <twig:alert type="info" message="No data found!" dismissible="0"/>
-                    {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-row-bordered gy-5">
+                            <thead>
+                            <tr class="fw-semibold fs-6 text-muted">
+                                <th>Name</th>
+                                <th scope="col" class="col-xl-4"></th>
+                            </tr>
+                            </thead>
+                            <tbody data-admin--shared--table-updater-target="updatableContent">
+                            {% include 'admin/product_types/_product-types.html.twig' with { productTypes } %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--start::Shared Modal container -->
+                    {% include 'shared/_modal-form.html.twig' with { modal_title: 'Product Type' } %}
+                    <!--end::Shared Modal container -->
                 </div>
             </div>
         </div>
-        <!--start::Shared Modal container -->
-        {% include 'shared/_modal-form.html.twig' with { modal_title: 'Product Type'} %}
-        <!--end::Shared Modal container -->
+
     </div>
 {% endblock %}

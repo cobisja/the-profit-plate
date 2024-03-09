@@ -7,8 +7,8 @@
         title: 'FBC',
         breadcrumbs: [
             { 'Home': path('app_admin_dashboard') },
-            { 'Recipe types': path('app_admin_product_types_index') },
-            'Edit'
+            { 'Product types': path('app_admin_product_types_index') },
+            'New'
         ]
     } %}
 {% endblock %}
@@ -18,10 +18,10 @@
         <div class="offset-lg-3 col-lg-6 col-xl-6">
             <div class="card mb-6">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Product Type</h3>
+                    <h3 class="card-title">New Product Type</h3>
                     <div class="card-toolbar">
-                        <a href="{{ path('app_admin_product_types_index') }}" class="btn btn-sm btn-light-secondary">
-                            Product Types
+                        <a href="{{ path('app_admin_recipe_types_index') }}" class="btn btn-sm btn-light-secondary">
+                            Recipe Types
                         </a>
                     </div>
                 </div>

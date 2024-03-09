@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\RecipeTypes;
+namespace App\Controller\Admin\ProductTypes;
 
-use App\Entity\RecipeType;
-use App\Form\RecipeTypeFormType;
+use App\Entity\ProductType;
+use App\Form\ProductTypeFormType;
 use App\Service\Admin\Shared\ActionButtonRendererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,8 +17,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-#[Route('/admin')]
-class RecipeTypeNewController extends AbstractController
+class ProductTypesNewController extends AbstractController
 {
     public function __construct(
         private readonly ActionButtonRendererService $actionButtonRendererService,
@@ -26,34 +25,34 @@ class RecipeTypeNewController extends AbstractController
     ) {
     }
 
-    #[Route('/recipe_types/new', name: 'app_admin_recipe_types_new', methods: ['GET', 'POST'])]
+    #[Route('/product_types/new', name: 'app_admin_product_types_new', methods: ['GET', 'POST'])]
     public function new(Request $request): RedirectResponse|Response
     {
         try {
-            $recipeType = new RecipeType();
-            $form = $this->createForm(RecipeTypeFormType::class, $recipeType, [
+            $productType = new ProductType();
+            $form = $this->createForm(ProductTypeFormType::class, $productType, [
                 'action' => $request->getRequestUri()
             ]);
 
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->entityManager->persist($recipeType);
+                $this->entityManager->persist($productType);
                 $this->entityManager->flush();
 
                 if ($request->isXmlHttpRequest()) {
                     $response = [
-                        ucfirst($recipeType->getName()),
-                        number_format((float)$recipeType->getExpensesPercentage(), 2),
-                        number_format((float)$recipeType->getProfitPercentage(), 2),
+                        ucfirst($productType->getName()),
                         $this->actionButtonRendererService->execute([
-                            $this->generateUrl('app_admin_recipe_types_edit', ['id' => $recipeType->getId()]),
-                            $this->generateUrl('app_admin_recipe_types_delete', ['id' => $recipeType->getId()]),
-                        ], (string)$recipeType->getId())
+                            $request->getRequestUri(),
+                            $this->generateUrl('app_admin_product_types_delete', ['id' => $productType->getId()])
+                        ], (string)$productType->getId())
                     ];
 
                     return $this->json($response, Response::HTTP_CREATED);
                 }
+
+                $this->addFlash('success', 'Product Type added');
 
                 return $this->redirectToRoute('app_admin_recipe_types_index');
             }
@@ -61,7 +60,7 @@ class RecipeTypeNewController extends AbstractController
             $template = $request->isXmlHttpRequest() ? '_form.html.twig' : 'new.html.twig';
 
             return $this->render('admin/recipe_types/' . $template, [
-                'recipeType' => $recipeType,
+                'productType' => $productType,
                 'form' => $form->createView()
             ], new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_CREATED));
         } catch (LoaderError|SyntaxError|RuntimeError $exception) {
@@ -73,7 +72,7 @@ class RecipeTypeNewController extends AbstractController
 
             $this->addFlash('error', $exceptionMessage);
 
-            return $this->redirectToRoute('app_admin_recipe_types_index');
+            return $this->redirectToRoute('app_admin_product_types_index');
         }
     }
 }

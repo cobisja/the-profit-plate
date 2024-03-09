@@ -14,8 +14,9 @@
 
 {% block content %}
     <div class="row g-7"
-         data-controller="admin--shared--modal-form"
-         data-admin--shared--modal-form-reload-content-url-value="{{ path('app_admin_recipe_types_index') }}"
+         data-controller="admin--shared--table-updater admin--shared--modal-form"
+         data-admin--shared--table-updater-full-reload-url-value="{{ path('app_admin_recipe_types_index') }}"
+         data-action="admin--shared--modal-form:item-added->admin--shared--table-updater#addRow admin--shared--modal-form:item-updated->admin--shared--table-updater#updateRow admin--shared--delete-item-button:item-deleted->admin--shared--table-updater#deleteRow"
     >
         <div class="col-lg-6 col-xl-12">
             <div class="card mb-6">
@@ -44,8 +45,8 @@
                                 <th scope="col" class="col-2"></th>
                             </tr>
                             </thead>
-                            <tbody data-admin--shared--modal-form-target="updatableContent">
-                            {% include 'admin/recipe_types/_recipe-type.html.twig' with { recipeTypes } %}
+                            <tbody data-admin--shared--table-updater-target="updatableContent">
+                            {% include 'admin/recipe_types/_recipe-types.html.twig' with { recipeTypes } %}
                             </tbody>
                         </table>
                     </div>

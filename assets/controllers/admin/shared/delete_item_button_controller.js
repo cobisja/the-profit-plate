@@ -3,7 +3,9 @@ import Swal from "sweetalert2";
 import $ from "jquery";
 
 export default class extends Controller {
-  showAlert(event) {
+  deleteItem(event) {
+    const form = $(this.element);
+
     event.preventDefault();
 
     Swal.fire({
@@ -16,12 +18,16 @@ export default class extends Controller {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const form = $(this.element);
-        const table = $("table").DataTable();
-
         await $.post(form.prop("action"), form.serialize())
           .then(() => {
-            table.row(form.closest("tr")).remove().draw();
+            /**
+             * Table redrawing requested!
+             */
+            this.dispatch("item-deleted", {
+              detail: {
+                deletedRowIndex: form.closest("tr").data("row-index"),
+              },
+            });
 
             Swal.fire({
               title: "Deleted!",

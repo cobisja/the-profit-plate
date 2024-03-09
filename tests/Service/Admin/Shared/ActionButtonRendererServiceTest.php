@@ -34,7 +34,7 @@ class ActionButtonRendererServiceTest extends TestCase
         $actionButtonRendererService = new ActionButtonRendererService($twig, $csrfTokenManagerMock);
 
         $expectedEditButton = '<a href="edit_route"class="btn btn-sm btn-light-primary ms-lg-5 float-start"data-action="admin--shared--modal-form#openModal">Edit</a>';
-        $expectedDeleteButton = '<form method="post"action="delete_route"data-controller="admin--shared--delete-item"data-action="admin--shared--delete-item#showAlert"><input type="hidden" name="_token" value="fake-csrf-token"><input type="hidden" name="_method" value="delete"><button class="btn btn-sm btn-light-danger ms-lg-5">Delete</button></form>';
+        $expectedDeleteButton = '<form method="post"action="delete_route"data-controller="admin--shared--delete-item-button"data-action="admin--shared--delete-item-button#deleteItem"><input type="hidden" name="_token" value="fake-csrf-token"><input type="hidden" name="_method" value="delete"><button class="btn btn-sm btn-light-danger ms-lg-5">Delete</button></form>';
 
         /**
          * Due to the service uses "Heredoc" notation, the HTML code contains new line characters (PHP_EOL)

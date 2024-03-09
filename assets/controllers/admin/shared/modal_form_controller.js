@@ -4,11 +4,7 @@ import Swal from "sweetalert2";
 import $ from "jquery";
 
 export default class extends Controller {
-  static values = {
-    fullReloadRequired: { type: Boolean, default: false },
-  };
-
-  static targets = ["currentRow", "updatableContent", "modalForm", "modalBody"];
+  static targets = ["currentRow", "modalForm", "modalBody"];
 
   modal = null;
   currentRowIndex = null;
@@ -45,38 +41,27 @@ export default class extends Controller {
       data: form.serialize(),
     };
 
-    /**
-     * No DataTables, requires render the whole tbody content
-     */
-    if (this.fullReloadRequiredValue) {
-      options.headers = { "full-reload": 1 };
-    }
-
     await $.ajax(options)
       .then((response) => {
         this.modal.hide();
 
-        !this.fullReloadRequiredValue
-          ? this.addOrUpdateRow(response)
-          : this.redrawTableBody(response);
+        if (-1 !== this.currentRowIndex) {
+          this.dispatch("item-updated", {
+            detail: {
+              rowIndex: this.currentRowIndex,
+              rowData: response,
+            },
+          });
+        } else {
+          this.dispatch("item-added", {
+            detail: {
+              rowData: response,
+            },
+          });
+        }
 
         Swal.fire({ text: "The task was completed!", icon: "success" });
       })
       .catch((err) => (this.modalBodyTarget.innerHTML = err.responseText));
-  }
-
-  addOrUpdateRow(response) {
-    let table = $("table").DataTable();
-    let row = table.row(this.currentRowIndex);
-
-    if (-1 !== this.currentRowIndex) {
-      row.data(response).draw(false);
-    } else {
-      table.row.add(response).draw();
-    }
-  }
-
-  redrawTableBody(response) {
-    this.updatableContentTarget.innerHTML = response;
   }
 }

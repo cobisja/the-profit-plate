@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 #[Route('/admin')]
 class RecipeTypeEditController extends AbstractController
@@ -64,7 +67,7 @@ class RecipeTypeEditController extends AbstractController
                 'recipeType' => $recipeType,
                 'form' => $form->createView()
             ], new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK));
-        } catch (RecipeTypeNotFoundException $exception) {
+        } catch (RecipeTypeNotFoundException|LoaderError|SyntaxError|RuntimeError $exception) {
             if ($request->isXmlHttpRequest()) {
                 return new Response($exception->getMessage(), Response::HTTP_BAD_REQUEST);
             }
