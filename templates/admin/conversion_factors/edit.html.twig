@@ -1,0 +1,35 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}FBC - Conversion Factors{% endblock %}
+
+{% block page_title %}
+    {% include 'layouts/layout/partials/_page-title.html.twig' with {
+        title: 'FBC',
+        breadcrumbs: [
+            { 'Home': path('app_admin_dashboard') },
+            { 'Conversion Factors': path('app_admin_conversion_factors_index') },
+            'Edit'
+        ]
+    } %}
+{% endblock %}
+
+{% block content %}
+    <div class="row g-7">
+        <div class="offset-lg-3 col-lg-6 col-xl-6">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3 class="card-title">Edit Conversion Factor</h3>
+                    <div class="card-toolbar">
+                        <a href="{{ path('app_admin_conversion_factors_index') }}"
+                           class="btn btn-sm btn-light-secondary">
+                            Conversion Factors
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body pt-9 pb-9">
+                    {% include 'admin/conversion_factors/_form.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
