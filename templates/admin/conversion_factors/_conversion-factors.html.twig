@@ -1,0 +1,15 @@
+{% for conversionFactor in conversionFactors %}
+    <tr data-row-index="{{ loop.index0 }}">
+        <td>{{ conversionFactor.originUnit }}</td>
+        <td>{{ conversionFactor.targetUnit }}</td>
+        <td>{{ conversionFactor.factor }}</td>
+        <td>
+            <twig:edit-button url="{{ path('app_admin_conversion_factors_edit', { id: conversionFactor.id }) }}"/>
+            <twig:delete-button
+                    url="{{ path('app_admin_conversion_factors_delete', { id: conversionFactor.id }) }}"
+                    csrfTokenId="{{ csrf_token('delete' ~ conversionFactor.id) }}"
+                    method="delete"
+            />
+        </td>
+    </tr>
+{% endfor %}

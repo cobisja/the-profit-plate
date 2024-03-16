@@ -1,13 +1,13 @@
 {% extends 'layouts/admin.html.twig' %}
 
-{% block title %}FBC - Recipe types{% endblock %}
+{% block title %}FBC - Conversion Factors{% endblock %}
 
 {% block page_title %}
     {% include 'layouts/layout/partials/_page-title.html.twig' with {
         title: 'FBC',
         breadcrumbs: [
             { 'Home': path('app_admin_dashboard') },
-            'Recipe types'
+            'Conversion Factors'
         ]
     } %}
 {% endblock %}
@@ -20,32 +20,34 @@
         <div class="col-lg-6 col-xl-12">
             <div class="card mb-6">
                 <div class="card-header">
-                    <h3 class="card-title">Recipe Types</h3>
+                    <h3 class="card-title">Conversion Factors</h3>
                     <div class="card-toolbar">
-                        <a href="{{ path('app_admin_recipe_types_new') }}"
+                        <a href="{{ path('app_admin_conversion_factors_new') }}"
                            class="btn btn-sm btn-light-primary"
                            data-action="admin--shared--modal-form#openModal"
-                        >New Recipe Type</a>
+                        >New Conversion Factor</a>
                     </div>
                     {% include 'shared/_flash-messages.html.twig' %}
                 </div>
                 <div class="card-body pt-9 pb-9">
                     <div class="table-responsive">
                         <table class="table table-row-bordered gy-5"
-                               id="recipe-types-table"
+                               id="conversion-factors-table"
                                data-exclude-sort-columns="3"
                                data-length-menu="[5,10]"
                         >
                             <thead>
                             <tr class="fw-semibold fs-6 text-muted">
-                                <th scope="col" class="col-4">Name</th>
-                                <th>Expenses percentage(%)</th>
-                                <th>Profit percentage(%)</th>
+                                <th>Origin unit</th>
+                                <th>Target unit</th>
+                                <th>Factor</th>
                                 <th scope="col" class="col-2"></th>
                             </tr>
                             </thead>
                             <tbody data-admin--shared--table-updater-target="updatableContent">
-                            {% include 'admin/recipe_types/_recipe-types.html.twig' with { recipeTypes } %}
+                            {% include 'admin/conversion_factors/_conversion-factors.html.twig' with {
+                                conversionFactors
+                            } %}
                             </tbody>
                         </table>
                     </div>
@@ -53,7 +55,7 @@
             </div>
         </div>
         <!--start::Shared Modal container -->
-        {% include 'shared/_modal-form.html.twig' with { modal_title: 'Recipe Type'} %}
+        {% include 'shared/_modal-form.html.twig' with { modal_title: 'Conversion Factor'} %}
         <!--end::Shared Modal container -->
     </div>
 {% endblock %}

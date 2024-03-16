@@ -44,7 +44,7 @@ class ConversionFactor
 
     public function setOriginUnit(string $originUnit): void
     {
-        $this->originUnit = $originUnit;
+        $this->originUnit = strtolower($originUnit);
     }
 
     public function getTargetUnit(): ?string
@@ -54,12 +54,12 @@ class ConversionFactor
 
     public function setTargetUnit(string $targetUnit): void
     {
-        $this->targetUnit = $targetUnit;
+        $this->targetUnit = strtolower($targetUnit);
     }
 
-    public function getFactor(): ?float
+    public function getFactor(): ?string
     {
-        return (float)$this->factor;
+        return $this->factor;
     }
 
     public function setFactor(string $factor): void
