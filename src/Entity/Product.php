@@ -55,7 +55,7 @@ class Product
 
     public function setName(string $name): void
     {
-        $this->name = $name;
+        $this->name = strtolower($name);
     }
 
     public function getPicture(): ?string
@@ -75,7 +75,7 @@ class Product
 
     public function setUnit(string $unit): void
     {
-        $this->unit = $unit;
+        $this->unit = strtolower($unit);
     }
 
     public function getPricePerUnit(): ?float

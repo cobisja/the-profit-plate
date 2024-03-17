@@ -6,6 +6,7 @@ export default class extends Controller {
   static values = {
     fullReloadUrl: String,
     tableSelector: { type: String, default: "table" },
+    filterColumnIndex: { type: Number, default: 0 },
   };
 
   static targets = ["updatableContent"];
@@ -53,5 +54,20 @@ export default class extends Controller {
           icon: "error",
         });
       });
+  }
+
+  applyFilter(event) {
+    const table = $(this.tableSelectorValue).DataTable();
+
+    table
+      .column(this.filterColumnIndexValue)
+      .search(event.detail.selectedFilter, { exact: true })
+      .draw();
+  }
+
+  clearFilter() {
+    const table = $(this.tableSelectorValue).DataTable();
+
+    table.columns().search("").draw();
   }
 }

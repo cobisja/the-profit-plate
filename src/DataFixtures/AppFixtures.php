@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Factory\ConversionFactorFactory;
+use App\Factory\ProductFactory;
 use App\Factory\ProductTypeFactory;
 use App\Factory\RecipeTypeFactory;
 use App\Factory\UserFactory;
@@ -17,5 +18,6 @@ class AppFixtures extends Fixture
         RecipeTypeFactory::createMany(5);
         ProductTypeFactory::createMany(5);
         ConversionFactorFactory::createMany(10);
+        ProductFactory::createMany(15);
     }
 }
