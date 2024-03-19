@@ -49,7 +49,7 @@ final class ProductFactory extends ModelFactory
         return [
             'productType' => ProductTypeFactory::random(),
             'name' => self::faker()->domainWord(),
-            'picture' => self::faker()->image(category: 'food'),
+            'picture' => self::faker()->imageUrl(64, 64,  'food'),
             'pricePerUnit' => self::faker()->randomFloat(
                 random_int(1, 4),
                 1,

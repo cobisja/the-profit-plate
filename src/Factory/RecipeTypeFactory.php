@@ -48,7 +48,7 @@ final class RecipeTypeFactory extends ModelFactory
     {
         return [
             'expensesPercentage' => self::faker()->randomFloat(2, 10, 50),
-            'name' => self::faker()->word(),
+            'name' => self::faker()->unique()->word(),
             'profitPercentage' => self::faker()->randomFloat(2, 10, 50),
         ];
     }

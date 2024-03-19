@@ -1,12 +1,14 @@
 {% for product in products %}
     <tr data-row-index="{{ loop.index0 }}">
         <td>{{ product.name|capitalize }}</td>
-        <td><img src="{{ product.picture }}" alt="{{ product.name }}"></td>
+        <td>
+            <img src="{{ product.picture }}" alt="{{ product.name }}" width="64">
+        </td>
         <td>{{ product.productType.name|capitalize }}</td>
-        <td>{{ product.unit }}</td>
-        <td>{{ product.pricePerUnit|number_format(2) }}</td>
+        <td>{{ '%s x %s'|format(product.pricePerUnit|number_format(2), product.unit) }}</td>
         <td>{{ product.updatedAt|date('Y-m-d h:i') }}</td>
         <td>
+            <twig:show-button url="{{ path('app_admin_conversion_factors_edit', { id: product.id }) }}"/>
             <twig:edit-button url="{{ path('app_admin_conversion_factors_edit', { id: product.id }) }}"/>
             <twig:delete-button
                     url="{{ path('app_admin_conversion_factors_delete', { id: product.id }) }}"

@@ -44,7 +44,15 @@ class ActionButtonRendererServiceTest extends TestCase
         $result = preg_replace(
             '/\s{2,}/',
             '',
-            str_replace(PHP_EOL, '', $actionButtonRendererService->execute($routes, $entityId))
+            str_replace(
+                PHP_EOL,
+                '',
+                $actionButtonRendererService->execute(
+                    $routes,
+                    $entityId,
+                    exclude: ActionButtonRendererService::SHOW_BUTTON
+                )
+            )
         );
 
         $this->assertStringContainsString($expectedEditButton, $result);

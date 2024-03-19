@@ -36,20 +36,17 @@
                             filter_column_index: 2,
                             options: productTypes|map(p => p.name)
                         } %}
-                        <!--begin::Export-->
-                        <button type="button" class="btn btn-sm btn-light-primary me-3" data-bs-toggle="modal"
-                                data-bs-target="#kt_customers_export_modal">
-                            <i class="ki-duotone ki-exit-up fs-2">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>Export
-                        </button>
-                        <!--end::Export-->
-                        <!--begin::Add customer-->
+                        {% include 'shared/_export-button.html.twig' with {
+                            export_options: {
+                                excel: 'Export as Excel',
+                                csv: 'Export as CSV',
+                                pdf: 'Export as PDF'
+                            }
+                        } %}
                         <a href="{{ path('app_admin_conversion_factors_new') }}"
                            class="btn btn-sm btn-light-primary"
                            data-action="admin--shared--modal-form#openModal"
-                        ><i class="ki-duotone ki-plus fs-2"></i>New Conversion Factor</a>
+                        ><i class="ki-duotone ki-plus fs-2"></i>New Product</a>
                         <!--end::Toolbar-->
                     </div>
                     <!--end::Card toolbar-->
@@ -60,12 +57,11 @@
                             <thead>
                             <tr class="fw-semibold fs-6 text-muted">
                                 <th>Name</th>
-                                <th>Picture</th>
+                                <th class="no-export">Picture</th>
                                 <th>Type</th>
-                                <th>Unit</th>
-                                <th>Unit price</th>
+                                <th>Price x unit</th>
                                 <th>Updated at</th>
-                                <th scope="col" class="col-2"></th>
+                                <th scope="col" class="no-export"></th>
                             </tr>
                             </thead>
                             <tbody data-admin--shared--table-updater-target="updatableContent">
@@ -86,10 +82,45 @@
 
     <script type="module">
         import DataTable from "datatables.net-bs5"
+        import "datatables.net-buttons-dt";
+        import "datatables.net-buttons/js/buttons.html5";
+        import "datatables.net-buttons/js/buttons.print";
+        import JSZip from "jszip";
+        import pdfMake from "pdfmake/build/pdfmake";
 
-        new DataTable("table", {
-            columnDefs: [{orderable: false, targets: 6}],
-            order: [[0, 'asc']]
+        pdfMake.vfs = window.vfsFonts.default;
+        window.JSZip = JSZip;
+
+        const table = new DataTable("table", {
+            columnDefs: [{orderable: false, targets: 5}],
+            order: [[0, 'asc']],
         });
+
+        const exportableColumns = "th:not(.no-export)";
+
+        new DataTable.Buttons(table, {
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+            ]
+        });
+
+        table.buttons().container().appendTo($("#dtButtons"));
     </script>
 {% endblock %}

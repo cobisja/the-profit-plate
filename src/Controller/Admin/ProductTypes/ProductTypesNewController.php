@@ -46,7 +46,7 @@ class ProductTypesNewController extends AbstractController
                         $this->actionButtonRendererService->execute([
                             $request->getRequestUri(),
                             $this->generateUrl('app_admin_product_types_delete', ['id' => $productType->getId()])
-                        ], (string)$productType->getId())
+                        ], (string)$productType->getId(), exclude: ActionButtonRendererService::SHOW_BUTTON)
                     ];
 
                     return $this->json($response, Response::HTTP_CREATED);

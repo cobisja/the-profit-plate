@@ -49,8 +49,8 @@ class ConversionFactorEditController extends AbstractController
                         $conversionFactor->getFactor(),
                         $this->actionButtonRendererService->execute([
                             $request->getRequestUri(),
-                            $this->generateUrl('app_admin_conversion_factors_delete', compact('id'))
-                        ], (string)$conversionFactor->getId())
+                            $this->generateUrl('app_admin_conversion_factors_delete', compact('id')),
+                        ], (string)$conversionFactor->getId(), exclude: ActionButtonRendererService::SHOW_BUTTON)
                     ];
 
                     return $this->json($response);

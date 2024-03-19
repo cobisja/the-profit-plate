@@ -44,16 +44,45 @@ return [
         'version' => '3.7.1',
     ],
     'datatables.net-bs5' => [
-        'version' => '2.0.0',
+        'version' => '2.0.2',
     ],
     'datatables.net-bs5/css/dataTables.bootstrap5.min.css' => [
-        'version' => '2.0.0',
+        'version' => '2.0.2',
         'type' => 'css',
     ],
     'datatables.net' => [
-        'version' => '2.0.0',
+        'version' => '2.0.2',
     ],
     'sweetalert2' => [
         'version' => '11.10.5',
+    ],
+    'jszip' => [
+        'version' => '3.10.1',
+    ],
+    'datatables.net-dt' => [
+        'version' => '2.0.2',
+    ],
+    'datatables.net-dt/css/dataTables.dataTables.min.css' => [
+        'version' => '2.0.2',
+        'type' => 'css',
+    ],
+    'datatables.net-buttons/js/buttons.html5' => [
+        'version' => '3.0.1',
+    ],
+    'datatables.net-buttons/js/buttons.print' => [
+        'version' => '3.0.1',
+    ],
+    'datatables.net-buttons-dt' => [
+        'version' => '3.0.1',
+    ],
+    'datatables.net-buttons-dt/css/buttons.dataTables.min.css' => [
+        'version' => '3.0.1',
+        'type' => 'css',
+    ],
+    'datatables.net-buttons' => [
+        'version' => '3.0.1',
+    ],
+    'pdfmake/build/pdfmake' => [
+        'version' => '0.2.10',
     ],
 ];
