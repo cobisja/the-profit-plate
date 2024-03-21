@@ -38,6 +38,9 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private ?ProductType $productType = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $notes = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -106,5 +109,17 @@ class Product
     public function setProductType(?ProductType $productType): void
     {
         $this->productType = $productType;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
+
+        return $this;
     }
 }

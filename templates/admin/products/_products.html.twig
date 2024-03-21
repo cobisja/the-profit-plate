@@ -8,7 +8,7 @@
         <td>{{ '%s x %s'|format(product.pricePerUnit|number_format(2), product.unit) }}</td>
         <td>{{ product.updatedAt|date('Y-m-d h:i') }}</td>
         <td>
-            <twig:show-button url="{{ path('app_admin_conversion_factors_edit', { id: product.id }) }}"/>
+            <twig:show-button url="{{ path('app_admin_products_show', { id: product.id }) }}"/>
             <twig:edit-button url="{{ path('app_admin_conversion_factors_edit', { id: product.id }) }}"/>
             <twig:delete-button
                     url="{{ path('app_admin_conversion_factors_delete', { id: product.id }) }}"

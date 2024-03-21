@@ -47,8 +47,7 @@ final class ProductFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'productType' => ProductTypeFactory::random(),
-            'name' => self::faker()->domainWord(),
+            'name' => self::faker()->unique()->domainWord(),
             'picture' => self::faker()->imageUrl(64, 64,  'food'),
             'pricePerUnit' => self::faker()->randomFloat(
                 random_int(1, 4),
@@ -59,6 +58,7 @@ final class ProductFactory extends ModelFactory
                 self::faker()->randomElement(['??', '???'])
             ),
             'updatedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
+            'notes' => self::faker()->optional()->text()
         ];
     }
 

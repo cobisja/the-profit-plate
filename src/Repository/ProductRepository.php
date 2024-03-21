@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use Doctrine\DBAL\ParameterType;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,5 +26,16 @@ class ProductRepository extends BaseRepository
             ->innerJoin('p.productType', 'pt')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findByIdWithItsType(string $id): ?Product
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('pt')
+            ->innerJoin('p.productType', 'pt')
+            ->where('p.id = :id')
+            ->setParameter('id', Uuid::fromString($id)->toBinary(), ParameterType::BINARY)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

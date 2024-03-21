@@ -18,6 +18,6 @@ class AppFixtures extends Fixture
         RecipeTypeFactory::createMany(5);
         ProductTypeFactory::createMany(5);
         ConversionFactorFactory::createMany(10);
-        ProductFactory::createMany(15);
+        ProductFactory::createMany(15, static fn() => ['productType' => ProductTypeFactory::random()] );
     }
 }
