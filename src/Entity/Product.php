@@ -81,9 +81,9 @@ class Product
         $this->unit = strtolower($unit);
     }
 
-    public function getPricePerUnit(): ?float
+    public function getPricePerUnit(): ?string
     {
-        return (float)$this->pricePerUnit;
+        return $this->pricePerUnit;
     }
 
     public function setPricePerUnit(string $pricePerUnit): void
@@ -121,5 +121,10 @@ class Product
         $this->notes = $notes;
 
         return $this;
+    }
+
+    public function updateUpdatedAt(?DateTimeImmutable $updatedAt = null): void
+    {
+        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();
     }
 }

@@ -85,4 +85,11 @@ return [
     'pdfmake/build/pdfmake' => [
         'version' => '0.2.10',
     ],
+    'trix' => [
+        'version' => '2.0.10',
+    ],
+    'trix/dist/trix.min.css' => [
+        'version' => '2.0.10',
+        'type' => 'css',
+    ],
 ];

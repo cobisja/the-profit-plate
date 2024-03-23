@@ -1,4 +1,4 @@
 <a href="{{ url }}"
    class="btn btn-sm btn-light-primary ms-lg-5 float-start"
-   data-action="admin--shared--modal-form#openModal"
+   {{ showInModal|default(true) ? 'data-action="admin--shared--modal-form#openModal"' : '' }}
 >{{ title|default('Edit') }}</a>

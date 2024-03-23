@@ -2,14 +2,17 @@
     <tr data-row-index="{{ loop.index0 }}">
         <td>{{ product.name|capitalize }}</td>
         <td>
-            <img src="{{ product.picture }}" alt="{{ product.name }}" width="64">
+            <img src="{{ asset(uploads_folder ~ '/products/' ~ product.picture) }}" alt="{{ product.name }}" width="32">
         </td>
         <td>{{ product.productType.name|capitalize }}</td>
         <td>{{ '%s x %s'|format(product.pricePerUnit|number_format(2), product.unit) }}</td>
-        <td>{{ product.updatedAt|date('Y-m-d h:i') }}</td>
+        <td>{{ product.updatedAt|time_diff }}</td>
         <td>
             <twig:show-button url="{{ path('app_admin_products_show', { id: product.id }) }}"/>
-            <twig:edit-button url="{{ path('app_admin_conversion_factors_edit', { id: product.id }) }}"/>
+            <twig:edit-button
+                    url="{{ path('app_admin_products_edit', { id: product.id }) }}"
+                    showInModal="0"
+            />
             <twig:delete-button
                     url="{{ path('app_admin_conversion_factors_delete', { id: product.id }) }}"
                     csrfTokenId="{{ csrf_token('delete' ~ product.id) }}"
