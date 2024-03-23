@@ -69,12 +69,14 @@ class ProductFormType extends AbstractType
                 ],
             ])
             ->add('unit', ChoiceType::class, [
+                'placeholder' => 'Choose an option',
                 'choices' => array_merge(...array_map(static fn(string $unit) => [$unit => $unit], $availableUnits))
             ])
             ->add('pricePerUnit')
             ->add('notes', HiddenType::class)
             ->add('productType', EntityType::class, [
                 'class' => ProductType::class,
+                'placeholder' => 'Choose an option',
                 'choice_label' => static fn(ProductType $productType) => ucwords($productType->getName()),
             ]);
 
