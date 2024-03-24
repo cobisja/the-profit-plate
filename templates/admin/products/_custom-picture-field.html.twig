@@ -2,7 +2,9 @@
 <div class="image-input image-input-empty image-input-outline image-input-placeholder mt-5 mb-3"
      data-kt-image-input="true"
 >
-    <div class="image-input-wrapper w-150px h-150px" style="background-image: url({{ picture_url }})"></div>
+    <div class="image-input-wrapper w-150px h-150px"
+         style="background-image: url({{ picture_url|default(asset('templates/media/files/blank-image.svg')) }})"
+    ></div>
     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
            data-kt-image-input-action="change" data-bs-toggle="tooltip"
            aria-label="Change avatar" data-bs-original-title="Change avatar"

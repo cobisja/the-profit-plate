@@ -8,7 +8,8 @@
             </div>
         </div>
         <div class="card-body text-center pt-0">
-            {{ form_row(form.picture, { picture_url: asset(uploads_folder ~ '/products/' ~ product.picture) }) }}
+            {{ form_row(form.picture, { picture_url:
+                product.picture ? asset(uploads_folder ~ '/products/' ~ product.picture) : '' }) }}
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@
                     showInModal="0"
             />
             <twig:delete-button
-                    url="{{ path('app_admin_conversion_factors_delete', { id: product.id }) }}"
+                    url="{{ path('app_admin_products_delete', { id: product.id }) }}"
                     csrfTokenId="{{ csrf_token('delete' ~ product.id) }}"
                     method="delete"
             />

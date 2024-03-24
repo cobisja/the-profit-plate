@@ -1,0 +1,19 @@
+<form method="post" action="{{ url }}"
+      data-controller="admin--shared--delete-item-button"
+        {{ redirect_url|default(false)
+        ? 'data-admin--shared--delete-item-button-redirect-url-value = %s'|format(redirect_url)
+        : '' }}
+>
+    <input type="hidden" name="_token" value="{{ csrfTokenId|default(csrf_token('delete')) }}">
+    {% if not method|default('post') is same as('post') %}
+        <input type="hidden" name="_method" value="{{ method }}">
+    {% endif %}
+    <a href="#" {{ attributes.defaults({ class: '' }) }} data-action="admin--shared--delete-item-button#deleteItem">
+        {% if not icon|default(false) %}
+            <i class="ki-duotone ki-minus fs-2 me-1"></i>
+        {% else %}
+            {{ icon|raw }}
+        {% endif %}
+        {{ title|default('Delete') }}
+    </a>
+</form>
