@@ -1,0 +1,33 @@
+{{ form_errors(form) }}
+<div class="image-input image-input-empty image-input-outline image-input-placeholder mt-5 mb-3"
+     data-kt-image-input="true"
+>
+    <div class="image-input-wrapper w-150px h-150px"
+         style="background-image: url({{ picture_url|default(asset('templates/media/files/blank-image.svg')) }})"
+    ></div>
+    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+           data-kt-image-input-action="change" data-bs-toggle="tooltip"
+           aria-label="Change avatar" data-bs-original-title="Change avatar"
+           data-kt-initialized="1"
+    >
+        <i class="ki-duotone ki-pencil fs-7">
+            <span class="path1"></span>
+            <span class="path2"></span>
+        </i>
+        <input type="file" name="{{ full_name }}" accept=".png, .jpg, .jpeg">
+        <input type="hidden" name="avatar_remove">
+    </label>
+    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+          data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
+          aria-label="Cancel avatar" data-bs-original-title="Cancel avatar"
+          data-kt-initialized="1"
+    ><i class="ki-duotone ki-cross fs-2"
+        ><span class="path1"></span><span class="path2"></span></i></span>
+    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+          data-kt-image-input-action="remove" data-bs-toggle="tooltip"
+          aria-label="Remove avatar" data-bs-original-title="Remove avatar"
+          data-kt-initialized="1"
+    ><i class="ki-duotone ki-cross fs-2"
+        ><span class="path1"></span><span class="path2"></span></i></span>
+</div>
+<div class="text-muted fs-7">Set the product image. Only *.png, *.jpg and *.jpeg image files are accepted</div>

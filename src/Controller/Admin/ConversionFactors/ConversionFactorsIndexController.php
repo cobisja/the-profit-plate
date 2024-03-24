@@ -22,13 +22,6 @@ class ConversionFactorsIndexController extends AbstractController
     {
         $conversionFactors = $this->conversionFactorIndexService->execute();
 
-        if ($request->isXmlHttpRequest()) {
-            return $this->render(
-                'admin/conversion_factors/_conversion-factors.html.twig',
-                compact('conversionFactors')
-            );
-        }
-
         return $this->render('admin/conversion_factors/index.html.twig', compact('conversionFactors'));
     }
 }

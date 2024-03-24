@@ -50,7 +50,7 @@ class RecipeTypeEditController extends AbstractController
                         $this->actionButtonRendererService->execute([
                             $request->getRequestUri(),
                             $this->generateUrl('app_admin_recipe_types_delete', compact('id'))
-                        ], (string)$recipeType->getId())
+                        ], (string)$recipeType->getId(), exclude: ActionButtonRendererService::SHOW_BUTTON)
                     ];
 
                     return $this->json($response);

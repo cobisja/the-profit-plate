@@ -1,0 +1,126 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}FBC - Products{% endblock %}
+
+{% block page_title %}
+    {% include 'layouts/layout/partials/_page-title.html.twig' with {
+        title: 'FBC',
+        breadcrumbs: [
+            { 'Home': path('app_admin_dashboard') },
+            'Products'
+        ]
+    } %}
+{% endblock %}
+
+{% block content %}
+    <div class="row g-7"
+         data-controller="admin--shared--table-updater admin--shared--modal-form admin--shared--table-filter"
+         data-admin--shared--table-updater-filter-column-index-value="2"
+         data-action="admin--shared--modal-form:item-added->admin--shared--table-updater#addRow admin--shared--modal-form:item-updated->admin--shared--table-updater#updateRow admin--shared--delete-item-button:item-deleted->admin--shared--table-updater#deleteRow admin--shared--modal-filter:filter_applied->admin--shared--table-updater#applyFilter admin--shared--modal-filter:filter_reset->admin--shared--table-updater#clearFilter"
+    >
+        <div class="col-lg-6 col-xl-12">
+            <div class="card mb-6">
+                <div class="card-header border-0 pt-6">
+                    <!--begin::Card title-->
+                    <div class="card-title">
+                        <!--begin::Search-->
+                        <h3 class="card-title">Products</h3>
+                        <!--end::Search-->
+                    </div>
+                    <!--begin::Card title-->
+                    <!--begin::Card toolbar-->
+                    <div class="card-toolbar">
+                        <!--begin::Toolbar-->
+                        {% include 'shared/_modal-filter.html.twig' with {
+                            filter_title: 'Product Type:',
+                            filter_column_index: 2,
+                            options: productTypes|map(p => p.name)
+                        } %}
+                        {% include 'shared/_export-button.html.twig' with {
+                            export_options: {
+                                excel: 'Export as Excel',
+                                csv: 'Export as CSV',
+                                pdf: 'Export as PDF'
+                            }
+                        } %}
+                        <a href="{{ path('app_admin_products_new') }}"
+                           class="btn btn-sm btn-light-primary"
+                        ><i class="ki-duotone ki-plus fs-2"></i>New Product</a>
+                        <!--end::Toolbar-->
+                    </div>
+                    <!--end::Card toolbar-->
+                    {% include 'shared/_flash-messages.html.twig' %}
+                </div>
+                <div class="card-body pt-9 pb-9">
+                    <div class="table-responsive">
+                        <table class="table table-row-bordered align-middle gy-5" id="products-table">
+                            <thead>
+                            <tr class="fw-semibold fs-6 text-muted">
+                                <th>Name</th>
+                                <th class="no-export">Picture</th>
+                                <th>Type</th>
+                                <th>Price x unit</th>
+                                <th>Updated at</th>
+                                <th scope="col" class="no-export"></th>
+                            </tr>
+                            </thead>
+                            <tbody data-admin--shared--table-updater-target="updatableContent">
+                            {% include 'admin/products/_products.html.twig' with { products } %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--start::Shared Modal container -->
+        {% include 'shared/_modal-form.html.twig' with { modal_title: 'Product'} %}
+        <!--end::Shared Modal container -->
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="module">
+        import DataTable from "datatables.net-bs5"
+        import "datatables.net-buttons-dt";
+        import "datatables.net-buttons/js/buttons.html5";
+        import "datatables.net-buttons/js/buttons.print";
+        import JSZip from "jszip";
+        import pdfMake from "pdfmake/build/pdfmake";
+
+        pdfMake.vfs = window.vfsFonts.default;
+        window.JSZip = JSZip;
+
+        const table = new DataTable("table", {
+            columnDefs: [{orderable: false, targets: 5}],
+            order: [[0, 'asc']],
+        });
+
+        const exportableColumns = "th:not(.no-export)";
+
+        new DataTable.Buttons(table, {
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+            ]
+        });
+
+        table.buttons().container().appendTo($("#dtButtons"));
+    </script>
+{% endblock %}

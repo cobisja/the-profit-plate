@@ -53,7 +53,7 @@ class ConversionFactorsNewController extends AbstractController
                             $this->generateUrl('app_admin_conversion_factors_delete', [
                                 'id' => $conversionFactor->getId()
                             ]),
-                        ], (string)$conversionFactor->getId())
+                        ], (string)$conversionFactor->getId(), exclude: ActionButtonRendererService::SHOW_BUTTON)
                     ];
 
                     return $this->json($response, Response::HTTP_CREATED);

@@ -48,7 +48,7 @@ class ProductTypesEditController extends AbstractController
                         $this->actionButtonRendererService->execute([
                             $request->getRequestUri(),
                             $this->generateUrl('app_admin_recipe_types_delete', compact('id'))
-                        ], (string)$productType->getId())
+                        ], (string)$productType->getId(), exclude: ActionButtonRendererService::SHOW_BUTTON)
                     ];
 
                     return $this->json($response, Response::HTTP_OK);

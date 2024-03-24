@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'products')]
@@ -20,15 +21,20 @@ class Product
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
     #[ORM\Column(length: 6)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 6)]
     private ?string $unit = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, options: ['unsigned' => true, 'default' => 0])]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     private ?string $pricePerUnit = null;
 
     #[ORM\Column]
@@ -36,7 +42,16 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?ProductType $productType = null;
+
+    public function __construct()
+    {
+        $this->updateUpdatedAt();
+    }
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $notes = null;
 
     public function getId(): ?Uuid
     {
@@ -55,7 +70,7 @@ class Product
 
     public function setName(string $name): void
     {
-        $this->name = $name;
+        $this->name = strtolower($name);
     }
 
     public function getPicture(): ?string
@@ -75,12 +90,12 @@ class Product
 
     public function setUnit(string $unit): void
     {
-        $this->unit = $unit;
+        $this->unit = strtolower($unit);
     }
 
-    public function getPricePerUnit(): ?float
+    public function getPricePerUnit(): ?string
     {
-        return (float)$this->pricePerUnit;
+        return $this->pricePerUnit;
     }
 
     public function setPricePerUnit(string $pricePerUnit): void
@@ -106,5 +121,22 @@ class Product
     public function setProductType(?ProductType $productType): void
     {
         $this->productType = $productType;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function updateUpdatedAt(?DateTimeImmutable $updatedAt = null): void
+    {
+        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();
     }
 }

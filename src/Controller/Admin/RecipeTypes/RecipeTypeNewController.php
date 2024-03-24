@@ -49,7 +49,7 @@ class RecipeTypeNewController extends AbstractController
                         $this->actionButtonRendererService->execute([
                             $this->generateUrl('app_admin_recipe_types_edit', ['id' => $recipeType->getId()]),
                             $this->generateUrl('app_admin_recipe_types_delete', ['id' => $recipeType->getId()]),
-                        ], (string)$recipeType->getId())
+                        ], (string)$recipeType->getId(), exclude: ActionButtonRendererService::SHOW_BUTTON)
                     ];
 
                     return $this->json($response, Response::HTTP_CREATED);

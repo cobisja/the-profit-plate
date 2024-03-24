@@ -3,46 +3,39 @@
 namespace App\Repository;
 
 use App\Entity\Product;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\DBAL\ParameterType;
+use Symfony\Component\Uid\Uuid;
 
 /**
- * @extends ServiceEntityRepository<Product>
- *
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductRepository extends ServiceEntityRepository
+class ProductRepository extends BaseRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    protected static string $entityClassName = Product::class;
+
+    /**
+     * @return Product[]
+     */
+    public function getAllWithType(): array
     {
-        parent::__construct($registry, Product::class);
+        return $this->createQueryBuilder('p')
+            ->addSelect('pt')
+            ->innerJoin('p.productType', 'pt')
+            ->getQuery()
+            ->getResult();
     }
 
-//    /**
-//     * @return Product[] Returns an array of Product objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Product
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findByIdWithItsType(string $id): ?Product
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('pt')
+            ->innerJoin('p.productType', 'pt')
+            ->where('p.id = :id')
+            ->setParameter('id', Uuid::fromString($id)->toBinary(), ParameterType::BINARY)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
