@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -48,10 +50,15 @@ class Product
     public function __construct()
     {
         $this->updateUpdatedAt();
+        $this->priceVariations = new ArrayCollection();
     }
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $notes = null;
+
+    #[ORM\OneToMany(targetEntity: ProductPriceVariation::class, mappedBy: 'product')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    private Collection $priceVariations;
 
     public function getId(): ?Uuid
     {
@@ -138,5 +145,35 @@ class Product
     public function updateUpdatedAt(?DateTimeImmutable $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt ?? new DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, ProductPriceVariation>
+     */
+    public function getPriceVariations(): Collection
+    {
+        return $this->priceVariations;
+    }
+
+    public function addPriceVariation(ProductPriceVariation $priceVariation): static
+    {
+        if (!$this->priceVariations->contains($priceVariation)) {
+            $this->priceVariations->add($priceVariation);
+            $priceVariation->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePriceVariation(ProductPriceVariation $priceVariation): static
+    {
+        if ($this->priceVariations->removeElement($priceVariation)) {
+            // set the owning side to null (unless already changed)
+            if ($priceVariation->getProduct() === $this) {
+                $priceVariation->setProduct(null);
+            }
+        }
+
+        return $this;
     }
 }

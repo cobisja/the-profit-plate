@@ -1,8 +1,17 @@
 {% for product in products %}
     <tr data-row-index="{{ loop.index0 }}">
-        <td>{{ product.name|capitalize }}</td>
         <td>
-            <img src="{{ asset(uploads_folder ~ '/products/' ~ product.picture) }}" alt="{{ product.name }}" width="32">
+            <a href="{{ path('app_admin_products_show', { id: product.id }) }}" class="link text-black">
+                {{ product.name|capitalize }}
+            </a>
+        </td>
+        <td>
+            <a href="{{ path('app_admin_products_show', { id: product.id }) }}">
+                <img src="{{ asset(uploads_folder ~ '/products/' ~ product.picture) }}"
+                     alt="{{ product.name }}"
+                     width="32"
+                >
+            </a>
         </td>
         <td>{{ product.productType.name|capitalize }}</td>
         <td>{{ '%s x %s'|format(product.pricePerUnit|number_format(2), product.unit) }}</td>
