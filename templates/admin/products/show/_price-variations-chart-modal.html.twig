@@ -1,0 +1,33 @@
+<div class="modal fade" tabindex="-1" data-admin--products--price-variations-chart-target="chartModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    Price variations
+                    <br/><span class="fs-7">Product: {{ product.name|capitalize }}</span>
+                    <br/><span class="fs-7">Current price: {{ product.pricePerUnit|format_currency('USD') }}</span>
+                </h3>
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
+                     aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body" data-admin--products--price-variations-chart-target="chartContainer">
+                {% if chart is defined %}
+                    {{ render_chart(chart) }}
+                {% else %}
+                    <twig:alert message="The chart could not be rendered" type="error" />
+                {% endif %}
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+

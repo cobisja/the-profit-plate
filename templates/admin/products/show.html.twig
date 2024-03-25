@@ -14,7 +14,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row g-7">
+    <div class="row g-7"
+         data-controller="admin--products--price-variations-chart"
+         data-admin--products--price-variations-chart-url-value="{{ path('app_admin_products_price_variations_chart_show', {
+             id: product.id
+         }) }}"
+    >
         <div class="offset-xl-3 col-xl-6">
             <div class="card card-flush h-lg-100" id="product-details">
                 <!--begin::Card header-->
@@ -141,7 +146,7 @@
                                     <span class="path5"></span>
                                     <span class="path6"></span>
                                 </i>
-                                Price variation</a>
+                                Price variations</a>
                         </li>
                         <!--end:::Tab item-->
                         <!--begin:::Tab item-->
@@ -191,6 +196,6 @@
                 <!--end::Card body-->
             </div>
         </div>
-
+        {% include 'admin/products/show/_price-variations-chart-modal.html.twig' with { product } %}
     </div>
 {% endblock %}

@@ -12,12 +12,12 @@
             <div class="card-toolbar">
                 <!--begin::Menu-->
                 <button class="btn btn-icon btn-color-gray-500 btn-active-color-primary justify-content-end"
-                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
-                    <i class="ki-duotone ki-dots-square fs-1">
+                        title="Show chart"
+                        data-bs-toggle="tooltip"
+                        data-action="admin--products--price-variations-chart#showChart"
+                ><i class="ki-duotone ki-chart-line-up fs-1">
                         <span class="path1"></span>
                         <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
                     </i>
                 </button>
                 <!--end::Menu-->
@@ -56,10 +56,8 @@
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <!--begin::Number-->
                         <span class="text-gray-900 fw-bolder fs-6"
                         >{{ (((new_price - old_price) / old_price) * 100)|number_format(2) }}%</span>
-                        <!--end::Number-->
                     </div>
                     <!--end::Statistics-->
                 </div>
