@@ -1,0 +1,76 @@
+<div class="card card-flush h-lg-100">
+    {% if price_variations|length %}
+        <!--begin::Header-->
+        <div class="card-header pt-5">
+            <!--begin::Title-->
+            <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bold text-gray-900"
+            >Current price: {{ current_price|format_currency('USD') }}</span>
+            </h3>
+            <!--end::Title-->
+            <!--begin::Toolbar-->
+            <div class="card-toolbar">
+                <!--begin::Menu-->
+                <button class="btn btn-icon btn-color-gray-500 btn-active-color-primary justify-content-end"
+                        title="Show chart"
+                        data-bs-toggle="tooltip"
+                        data-action="admin--products--price-variations-chart#showChart"
+                ><i class="ki-duotone ki-chart-line-up fs-1">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                </button>
+                <!--end::Menu-->
+            </div>
+            <!--end::Toolbar-->
+        </div>
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body pt-5">
+            {% set variation_formats = {
+                'equals': { color: 'text-black-50', direction: 'right-left' },
+                'up': { color: 'text-warning', direction: 'up-right' },
+                'down': { color: 'text-success', direction: 'down-right' },
+            } %}
+            {% for price_variation in price_variations %}
+                {% set old_price = price_variation.oldPrice %}
+                {% set new_price = price_variation.newPrice %}
+                {% set variation_key = old_price > new_price ? 'down': (old_price < new_price ? 'up' : 'equals') %}
+                <!--begin::Item-->
+                <div class="d-flex flex-stack">
+                    <div class="position-relative ps-6 pe-3 py-2">
+                        <div class="position-absolute start-0 top-0 w-4px h-100 rounded-2 bg-{{ variation_formats[variation_key].color|replace({ 'text-': ''}) }}"></div>
+                        <div class="text-gray-900 fw-bold">
+                            <span>{{ old_price|format_currency('USD') }}</span>
+                            <i class="ki-duotone ki-black-right"></i>
+                            <span>{{ new_price|format_currency('USD') }}</span>
+                        </div>
+                        <div class="fs-9 text-muted fw-bold">
+                            {{ price_variation.createdAt|date('Y-m-d H:i') }}
+                        </div>
+                    </div>
+                    <!--end::Section-->
+                    <!--begin::Statistics-->
+                    <div class="d-flex align-items-senter">
+                        <i class="ki-duotone ki-arrow-{{ variation_formats[variation_key].direction }} fs-2 {{ variation_formats[variation_key].color }} me-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                        <span class="text-gray-900 fw-bolder fs-6"
+                        >{{ (((new_price - old_price) / old_price) * 100)|number_format(2) }}%</span>
+                    </div>
+                    <!--end::Statistics-->
+                </div>
+                <!--end::Item-->
+            {% endfor %}
+            <!--begin::Separator-->
+            <div class="separator separator-dashed my-3"></div>
+            <!--end::Separator-->
+        </div>
+    {% else %}
+        <div class="card-body pt-5">
+            <twig:alert message="No price variations logged" type="info" dismissible="0"/>
+        </div>
+    {% endif %}
+    <!--end::Body-->
+</div>

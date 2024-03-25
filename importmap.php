@@ -92,4 +92,7 @@ return [
         'version' => '2.0.10',
         'type' => 'css',
     ],
+    'chart.js/auto' => [
+        'version' => '3.9.1',
+    ],
 ];

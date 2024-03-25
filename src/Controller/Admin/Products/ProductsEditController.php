@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Products;
 
+use App\Event\Product\PriceChangedEvent;
 use App\Exception\Product\ProductNotFoundException;
 use App\Exception\Shared\InvalidPictureException;
 use App\Exception\Shared\PictureNotUploadedException;
@@ -12,6 +13,7 @@ use App\Service\Admin\Product\ProductShowService;
 use App\Service\Admin\Shared\PictureUploaderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +25,8 @@ class ProductsEditController extends AbstractController
     public function __construct(
         private readonly ProductShowService $productShowService,
         private readonly PictureUploaderService $pictureUploaderService,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 
@@ -32,6 +35,7 @@ class ProductsEditController extends AbstractController
     {
         try {
             $product = $this->productShowService->execute($id);
+            $currentPrice = $product->getPricePerUnit();
             $form = $this->createForm(ProductFormType::class, $product);
 
             $form->handleRequest($request);
@@ -53,6 +57,15 @@ class ProductsEditController extends AbstractController
                 $product->updateUpdatedAt();
 
                 $this->entityManager->flush();
+
+                $newPrice = $product->getPricePerUnit();
+
+                if ($currentPrice !== $newPrice) {
+                    $this->eventDispatcher->dispatch(
+                        new PriceChangedEvent($product, $currentPrice, $newPrice)
+                    );
+                }
+
                 $this->addFlash('success', 'Product updated');
 
                 return $this->redirectToRoute('app_admin_products_show', compact('id'));
