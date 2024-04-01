@@ -1,0 +1,81 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}FBC - Recipes{% endblock %}
+
+{% block page_title %}
+    {% include 'layouts/layout/partials/_page-title.html.twig' with {
+        title: 'FBC',
+        breadcrumbs: [
+            { 'Home': path('app_admin_dashboard') },
+            'Recipes'
+        ]
+    } %}
+{% endblock %}
+
+{% block content %}
+    <div data-controller="admin--recipes--recipes-counter"
+         data-action="recipes_search_updated->admin--recipes--recipes-counter#updateCounter"
+    >
+        {% include 'admin/recipes/index/_toolbar.html.twig' with { recipes } %}
+        <div class="tab-content" data-controller="admin--shared--image-zoom">
+            <!--begin::Tab pane-->
+            <div id="recipes_cards_pane" class="tab-pane fade active show" role="tabpanel">
+                {{ component('search-recipes-input') }}
+            </div>
+            <!--end::Tab pane-->
+            <!--begin::Tab pane-->
+            <div id="recipes_table_pane" class="tab-pane fade" role="tabpanel">
+                {% include 'admin/recipes/index/table/_recipes-table.html.twig' with { recipes, recipeTypes } %}
+            </div>
+            <!--end::Tab pane-->
+            {% include 'shared/_modal-zoom-image.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="module">
+        import DataTable from "datatables.net-bs5"
+        import "datatables.net-buttons-dt";
+        import "datatables.net-buttons/js/buttons.html5";
+        import "datatables.net-buttons/js/buttons.print";
+        import JSZip from "jszip";
+        import pdfMake from "pdfmake/build/pdfmake";
+
+        pdfMake.vfs = window.vfsFonts.default;
+        window.JSZip = JSZip;
+
+        const table = new DataTable("table", {
+            columnDefs: [{orderable: false, targets: 8}],
+            order: [[0, 'asc']],
+        });
+
+        const exportableColumns = "th:not(.no-export)";
+
+        new DataTable.Buttons(table, {
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: exportableColumns
+                    }
+                },
+            ]
+        });
+
+        table.buttons().container().appendTo($("#dtButtons"));
+    </script>
+{% endblock %}

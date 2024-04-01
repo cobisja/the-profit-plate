@@ -1,0 +1,31 @@
+<div{{ attributes.defaults({
+    'data-controller': 'admin--recipes--recipes-filter',
+    'data-action': 'admin--shared--modal-filter:filter_applied->admin--recipes--recipes-filter#applyFilter admin--shared--modal-filter:filter_reset->admin--recipes--recipes-filter#resetFilter'
+}) }}
+>
+    <div class="d-flex align-items-center position-relative my-1">
+        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
+            <span class="path1"></span>
+            <span class="path2"></span>
+        </i>
+        <input type="text"
+               class="form-control form-control-sm form-control-solid w-250px ps-12 me-3"
+               placeholder="Search..."
+               data-model="query"
+        >
+        {% include 'shared/_modal-filter.html.twig' with {
+            filter_title: 'Recipe Type:',
+            filter_column_index: 2,
+            options: recipeTypes|map(p => p.name)
+        } %}
+    </div>
+    {% if this.recipes|length > 0 %}
+        <div data-loading="addClass(opacity-50)" class="mt-3 row">
+            {% include 'admin/recipes/index/cards/_recipes-cards.html.twig' with { recipes: this.recipes } %}
+        </div>
+    {% else %}
+        <div class="mt-5">
+            {{ component('alert', { message: 'No recipes found matching "%s"'|format(query), dismissible: 0  }) }}
+        </div>
+    {% endif %}
+</div>

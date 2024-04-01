@@ -1,0 +1,38 @@
+{% for recipe in recipes %}
+    <tr data-row-index="{{ loop.index0 }}">
+        <td>
+            <a href="{{ path('app_admin_products_show', { id: recipe.id }) }}" class="link text-black">
+                {{ recipe.name|capitalize }}
+            </a>
+        </td>
+        <td>
+            {% set url = asset(
+                recipe.picture
+                ? uploads_folder ~ '/recipes/' ~ recipe.picture
+                : 'templates/media/files/blank-image.svg'
+            ) %}
+            <a href="{{ path('app_admin_products_show', { id: recipe.id }) }}">
+                <img src="{{ url }}" alt="{{ recipe.name }}" width="32">
+            </a>
+        </td>
+        <td>{{ recipe.recipeType.name|capitalize }}</td>
+        <td>{{ recipe.ingredients|length }}</td>
+        <td>{{ recipe.expensesPercentage|number_format(2) }}%</td>
+        <td>{{ recipe.profitPercentage|number_format(2) }}%</td>
+        <td><span class="badge badge-{{ recipe.published ? 'success' : 'light-primary' }}"
+            >{{ recipe.published ? 'Published' : 'Draft' }}</span></td>
+        <td>{{ recipe.updatedAt|time_diff }}</td>
+        <td>
+            <twig:show-button url="{{ path('app_admin_products_show', { id: recipe.id }) }}"/>
+            <twig:edit-button
+                    url="{{ path('app_admin_products_edit', { id: recipe.id }) }}"
+                    showInModal="0"
+            />
+            <twig:delete-button
+                    url="{{ path('app_admin_products_delete', { id: recipe.id }) }}"
+                    csrfTokenId="{{ csrf_token('delete' ~ recipe.id) }}"
+                    method="delete"
+            />
+        </td>
+    </tr>
+{% endfor %}
