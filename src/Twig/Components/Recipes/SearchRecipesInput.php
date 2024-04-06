@@ -23,7 +23,6 @@ class SearchRecipesInput
     #[LiveProp(writable: true, onUpdated: 'onQueryParamsUpdated', url: true)]
     public string $recipeTypeName = '';
 
-//    #[LiveProp(useSerializerForHydration: true)]
     public array $recipeTypes = [];
 
     public function __construct(
@@ -32,11 +31,6 @@ class SearchRecipesInput
     ) {
         $this->recipeTypes = $this->recipeTypeIndexService->execute();
     }
-
-//    public function modifyRecipeTypes(LiveProp $prop): LiveProp
-//    {
-//        return $prop->withFormat($this->recipeTypes);
-//    }
 
     public function getRecipes(): array
     {

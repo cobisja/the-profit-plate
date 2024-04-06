@@ -26,6 +26,6 @@ class RecipesIndexController extends AbstractController
         $recipes = $this->recipeIndexService->execute();
         $recipeTypes = $this->recipeTypeIndexService->execute();
 
-        return $this->render('admin/recipes/index/index.html.twig', compact('recipes', 'recipeTypes'));
+        return $this->render('admin/recipes/index.html.twig', compact('recipes', 'recipeTypes'));
     }
 }

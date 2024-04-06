@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\ConversionFactor;
-use App\Entity\Plus\Plus;
 use App\Entity\Product;
 use App\Entity\ProductType;
 use App\Repository\ConversionFactorRepository;

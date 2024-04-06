@@ -2,15 +2,15 @@
 
 {% form_theme form _self %}
 
-{% block title %}FBC - Products{% endblock %}
+{% block title %}FBC - Recipes{% endblock %}
 
 {% block page_title %}
     {% include 'layouts/layout/partials/_page-title.html.twig' with {
         title: 'FBC',
         breadcrumbs: [
             { 'Home': path('app_admin_dashboard') },
-            { 'Products': path('app_admin_products_index') },
-            'New'
+            { 'Recipes': path('app_admin_recipes_index') },
+            'Edit'
         ]
     } %}
 {% endblock %}
@@ -18,10 +18,10 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('styles/products.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/trix-toolbar.css') }}">
 {% endblock %}
 
-{% block _product_form_picture_row %}
+{% block _recipe_form_picture_row %}
     {% include 'shared/_custom-picture-field.html.twig' with { form } %}
 {% endblock %}
 
@@ -33,26 +33,43 @@
                     <!--begin::Card title-->
                     <div class="card-title">
                         <!--begin::Search-->
-                        <h3 class="card-title">New Product</h3>
+                        <h3 class="card-title">Edit Recipe</h3>
                         <!--end::Search-->
                     </div>
                     <!--begin::Card title-->
                     <!--begin::Card toolbar-->
                     <div class="card-toolbar">
                         <!--begin::Toolbar-->
-                        <a href="{{ path('app_admin_products_index') }}"
+                        <a href="{{ path('app_admin_recipes_index') }}"
                            class="btn btn-sm btn-light-secondary me-2"
                            data-action="admin--shared--modal-form#openModal"
                         ><i class="ki-duotone ki-exit-left fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
-                            </i>Back to Products</a>
+                            </i>Back to Recipes</a>
+                        <a href="{{ path('app_admin_products_show', { id: recipe.id }) }}"
+                           class="btn btn-sm btn-light-success"
+                           data-action="admin--shared--modal-form#openModal"
+                        ><i class="ki-duotone ki-book-open fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                            </i>Show details</a>
                         <!--end::Toolbar-->
                     </div>
                     <!--end::Card toolbar-->
                 </div>
-                <div class="card-body pt-9 pb-9">
-                    {% include 'admin/products/_form.html.twig' with { form, product } %}
+                <div class="card-body pt-9 pb-9"
+                     data-controller="admin--shared--image-zoom"
+                     data-admin--shared--image-zoom-image-selector-value="div.zoom-image"
+                     data-admin--shared--image-zoom-image-source-property-value="data-image-url"
+                     data-admin--shared--image-zoom-image-alt-text-value="{{ recipe.name }}"
+                >
+                    {% include 'admin/recipes/_form.html.twig' with { form, recipe } %}
+                    <!--begin::Zoom image modal-->
+                    {% include 'shared/_modal-zoom-image.html.twig' %}
+                    <!--end::Zoom image modal-->
                 </div>
             </div>
         </div>

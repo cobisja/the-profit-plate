@@ -47,7 +47,8 @@ final class RecipeIngredientFactory extends ModelFactory
     protected function getDefaults(): array
     {
         return [
-            'quantity' => self::faker()->randomFloat(2, 1, 50)
+            'quantity' => self::faker()->randomFloat(2, 1, 50),
+            'cost' => self::faker()->randomFloat(2, 1, 20),
         ];
     }
 

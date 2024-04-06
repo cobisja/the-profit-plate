@@ -17,7 +17,11 @@
          data-action="recipes_search_updated->admin--recipes--recipes-counter#updateCounter"
     >
         {% include 'admin/recipes/index/_toolbar.html.twig' with { recipes } %}
-        <div class="tab-content" data-controller="admin--shared--image-zoom">
+        <div class="tab-content"
+             data-controller="admin--shared--image-zoom"
+             data-admin--shared--image-zoom-image-selector-value="img.zoom-image"
+             data-admin--shared--image-zoom-image-source-property-value="src"
+        >
             <!--begin::Tab pane-->
             <div id="recipes_cards_pane" class="tab-pane fade active show" role="tabpanel">
                 {{ component('search-recipes-input') }}
@@ -28,7 +32,9 @@
                 {% include 'admin/recipes/index/table/_recipes-table.html.twig' with { recipes, recipeTypes } %}
             </div>
             <!--end::Tab pane-->
+            <!--begin::Zoom image modal-->
             {% include 'shared/_modal-zoom-image.html.twig' %}
+            <!--end::Zoom image modal-->
         </div>
     </div>
 {% endblock %}
