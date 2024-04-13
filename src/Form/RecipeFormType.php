@@ -80,8 +80,13 @@ class RecipeFormType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+            ])
+            ->add('numberOfServings', NumberType::class, [
+                'html5' => true,
+                'attr' => [
+                    'min' => 1,
+                ]
             ]);
-
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();

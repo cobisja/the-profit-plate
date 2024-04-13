@@ -39,6 +39,11 @@ class Product
     #[Assert\Positive]
     private ?string $pricePerUnit = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, options: ['unsigned' => true, 'default' => 0])]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
+    private ?string $wasteRate = null;
+
     #[ORM\Column]
     private ?DateTimeImmutable $updatedAt = null;
 
@@ -175,5 +180,22 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getWasteRate(): ?string
+    {
+        return $this->wasteRate;
+    }
+
+    public function setWasteRate(?string $wasteRate): void
+    {
+        $this->wasteRate = $wasteRate;
+    }
+
+    public function netCost(): float
+    {
+        $pricePerUnit = (float)$this->pricePerUnit;
+
+        return round($pricePerUnit + $pricePerUnit * $this->wasteRate / 100, 2);
     }
 }

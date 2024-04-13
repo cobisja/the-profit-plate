@@ -1,0 +1,16 @@
+<div class="mb-10">
+    <div class="d-none">
+        {{ form_widget(form.directions) }}
+    </div>
+    <div class="{{ form.directions.vars.errors|length > 0 ? 'form-control is-invalid' : '' }}">
+        <trix-editor input="recipe_form_directions"
+                     class="mw-lg-800px"
+                     data-controller="admin--shared--trix-toolbar"
+                     data-admin--shared--trix-toolbar-show-extended-toolbar-value="true"
+        ></trix-editor>
+    </div>
+    {{ form_errors(form.directions) }}
+    <div class="text-muted fs-7 mt-3 mb-10">
+        Provide detailed instructions for recipe preparation
+    </div>
+</div>

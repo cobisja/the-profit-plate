@@ -1,0 +1,42 @@
+<div class="form-group row mb-10">
+    <div class="col-lg-6">
+        {{ form_row(form.name) }}
+        <div class="text-muted fs-7">The product name must be unique</div>
+    </div>
+    <div class="col-lg-3">
+        {{ form_row(form.recipeType) }}
+    </div>
+    <div class="col-lg-3">
+        {{ form_row(form.numberOfServings, { attr: {
+            'data-action': 'admin--recipes--recipe-sale-price-updater#updateSalePrice',
+            'data-admin--recipes--recipe-sale-price-updater-target': "numberOfServings"
+        }}) }}
+    </div>
+</div>
+<div class="mb-10">
+    <div class="d-none">
+        {{ form_widget(form.description) }}
+    </div>
+    <label class="form-label pb-3 required">Description</label>
+    <div class="{{ form.description.vars.errors|length > 0 ? 'form-control is-invalid m-0' : '' }}">
+        <trix-editor input="recipe_form_description"></trix-editor>
+    </div>
+    {{ form_errors(form.description) }}
+    <div class="text-muted fs-7 mt-3 mb-10">Set a great description about the Recipe</div>
+</div>
+<div class="form-group row mb-10">
+    <div class="col-lg-6">
+        {{ form_row(form.expensesPercentage, { attr: {
+            'data-action': 'admin--recipes--recipe-sale-price-updater#updateSalePrice',
+            'data-admin--recipes--recipe-sale-price-updater-target': "expensesPercentage"
+        }}) }}
+        <div class="text-muted fs-7">Expenses can have up to two decimals</div>
+    </div>
+    <div class="col-lg-6">
+        {{ form_row(form.profitPercentage, { attr: {
+            'data-action': 'admin--recipes--recipe-sale-price-updater#updateSalePrice',
+            'data-admin--recipes--recipe-sale-price-updater-target': "profitPercentage"
+        }}) }}
+        <div class="text-muted fs-7">Expenses can have up to two decimals</div>
+    </div>
+</div>

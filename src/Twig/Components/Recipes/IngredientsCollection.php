@@ -12,12 +12,14 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent(name: 'ingredients-collection', template: 'components/recipes/ingredients-collection.html.twig')]
 class IngredientsCollection extends AbstractController
 {
+    use ComponentToolsTrait;
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
@@ -34,6 +36,8 @@ class IngredientsCollection extends AbstractController
     public function removeIngredientRow(#[LiveArg] int $index): void
     {
         unset($this->formValues['ingredients'][$index]);
+
+        $this->dispatchBrowserEvent('ingredients_collection:updated');
     }
 
     protected function instantiateForm(): FormInterface

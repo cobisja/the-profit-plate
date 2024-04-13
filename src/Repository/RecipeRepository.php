@@ -38,7 +38,7 @@ class RecipeRepository extends BaseRepository
                 ->addSelect('rt, i, p')
                 ->innerJoin('r.recipeType', 'rt')
                 ->leftJoin('r.ingredients', 'i')
-                ->innerJoin('i.product', 'p')
+                ->leftJoin('i.product', 'p')
                 ->where('r.id = :id')
                 ->setParameter('id', Uuid::fromString($id)->toBinary(), ParameterType::BINARY)
                 ->getQuery()

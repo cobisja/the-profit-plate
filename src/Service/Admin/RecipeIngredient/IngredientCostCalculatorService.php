@@ -4,34 +4,38 @@ declare(strict_types=1);
 
 namespace App\Service\Admin\RecipeIngredient;
 
-use App\Entity\RecipeIngredient;
+use App\Exception\Product\ProductNotFoundException;
 use App\Repository\ConversionFactorRepository;
+use App\Repository\ProductRepository;
 
 readonly class IngredientCostCalculatorService
 {
-    public function __construct(private ConversionFactorRepository $conversionFactorRepository)
-    {
+    public function __construct(
+        private ProductRepository $productRepository,
+        private ConversionFactorRepository $conversionFactorRepository
+    ) {
     }
 
-    public function execute(RecipeIngredient $ingredient): float
+    /**
+     * @throws ProductNotFoundException
+     */
+    public function execute(string $productId, float $quantity, string $unit): float
     {
-        $product = $ingredient->getProduct();
-        $productUnit = $product->getUnit();
-        $productPricePerUnit = (float)$product->getPricePerUnit();
-        $ingredientUnit = $ingredient->getUnit();
-        $ingredientQuantity = $ingredient->getQuantity();
-
-        if ($ingredientUnit === $productUnit) {
-            return $ingredientQuantity * $productPricePerUnit;
+        if (!$product = $this->productRepository->find($productId)) {
+            throw new ProductNotFoundException();
         }
 
-        if (!$conversionFactor = $this->conversionFactorRepository->conversionFactorForUnits(
-            $productUnit,
-            $ingredientUnit
-        )) {
+        $productUnit = $product->getUnit();
+        $productPricePerUnit = $product->netCost();
+
+        if ($unit === $productUnit) {
+            return $quantity * $productPricePerUnit;
+        }
+
+        if (!$conversionFactor = $this->conversionFactorRepository->conversionFactorForUnits($productUnit, $unit)) {
             return 0.0;
         }
 
-        return $productPricePerUnit * $ingredientQuantity / $conversionFactor;
+        return $productPricePerUnit * $quantity / $conversionFactor;
     }
 }

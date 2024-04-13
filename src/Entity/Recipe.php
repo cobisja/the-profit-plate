@@ -47,6 +47,10 @@ class Recipe
     #[Assert\Positive]
     private ?string $profitPercentage = null;
 
+    #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true, 'default' => 1])]
+    #[Assert\Positive]
+    private int $numberOfServings = 1;
+
     #[ORM\Column]
     private ?DateTimeImmutable $updatedAt = null;
 
@@ -198,5 +202,25 @@ class Recipe
     public function updateUpdatedAt(): void
     {
         $this->updatedAt = new DateTimeImmutable();
+    }
+
+    public function getNumberOfServings(): int
+    {
+        return $this->numberOfServings;
+    }
+
+    public function setNumberOfServings(int $numberOfServings): void
+    {
+        $this->numberOfServings = $numberOfServings;
+    }
+
+    public function getIngredientCosts(): float
+    {
+        return array_sum(
+            array_map(
+                static fn(RecipeIngredient $ingredient) => $ingredient->getCost(),
+                $this->ingredients->toArray()
+            )
+        );
     }
 }

@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Recipes;
 
+use App\Entity\RecipeIngredient;
+use App\Exception\Product\ProductNotFoundException;
 use App\Exception\Recipe\RecipeNotFoundException;
 use App\Exception\Shared\InvalidPictureException;
 use App\Exception\Shared\PictureNotUploadedException;
 use App\Form\RecipeFormType;
+use App\Service\Admin\RecipeIngredient\IngredientCostCalculatorService;
 use App\Service\Admin\Recipes\RecipeShowService;
 use App\Service\Admin\Shared\PictureUploaderService;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,6 +29,7 @@ class RecipesEditController extends AbstractController
         private readonly RecipeShowService $recipeShowService,
         private readonly PictureUploaderService $pictureUploaderService,
         private readonly EntityManagerInterface $entityManager,
+        private readonly IngredientCostCalculatorService $ingredientCostCalculatorService,
     ) {
     }
 
@@ -38,6 +44,24 @@ class RecipesEditController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $recipePicture = $form->get('picture')->getData();
+                $ingredients = $form->get('ingredients')->getData()->toArray();
+
+                array_walk($ingredients, function (&$ingredient) {
+                    /** @var RecipeIngredient $ingredient */
+                    try {
+                        $ingredient->setCost(
+                            (string)$this->ingredientCostCalculatorService->execute(
+                                (string)$ingredient->getProduct()->getId(),
+                                (float)$ingredient->getQuantity(),
+                                $ingredient->getUnit()
+                            )
+                        );
+
+                        $this->entityManager->persist($ingredient);
+                    } catch (ProductNotFoundException) {
+                        $ingredient->setCost(null);
+                    }
+                });
 
                 if ($recipePicture) {
                     $uploadsPath = $this->getParameter('uploads_folder') . '/recipes';
