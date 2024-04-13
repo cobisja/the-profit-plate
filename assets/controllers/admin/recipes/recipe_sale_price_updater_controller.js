@@ -2,10 +2,6 @@ import { Controller } from "@hotwired/stimulus";
 import $ from "jquery";
 
 export default class extends Controller {
-  static values = {
-    url: String,
-  };
-
   static targets = [
     "salePrice",
     "numberOfServings",
@@ -15,17 +11,18 @@ export default class extends Controller {
   ];
 
   async updateSalePrice(event) {
-    let options = {
-      number_of_servings: $(this.numberOfServingsTarget).val(),
-      expenses_percentage: $(this.expensesPercentageTarget).val(),
-      profit_percentage: $(this.profitPercentageTarget).val(),
-      ingredient_costs: this.totalCostsTarget.innerText,
-    };
+    const numberOfServings = parseInt($(this.numberOfServingsTarget).val());
+    const expensesPercentage = parseFloat(
+      $(this.expensesPercentageTarget).val(),
+    );
+    const profitPercentage = parseFloat($(this.profitPercentageTarget).val());
+    const ingredientCosts = parseFloat(this.totalCostsTarget.innerText);
+    const profit = (ingredientCosts * profitPercentage) / 100;
+    const expenses = profit + (profit * expensesPercentage) / 100;
+    const salePrice = (ingredientCosts + profit + expenses) / numberOfServings;
 
-    await $.get(this.urlValue, options)
-      .then((response) => {
-        this.salePriceTarget.innerText = response.data.sale_price.toFixed(2);
-      })
-      .catch(() => (this.salePriceTarget.innerText = "0.00"));
+    this.salePriceTarget.innerText = (
+      !isNaN(salePrice) ? salePrice : 0
+    ).toFixed(2);
   }
 }

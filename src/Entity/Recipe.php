@@ -61,13 +61,12 @@ class Recipe
     #[ORM\OneToMany(
         targetEntity: RecipeIngredient::class,
         mappedBy: 'recipe',
-        cascade: ['persist', 'remove'],
         orphanRemoval: true,
     )]
     private Collection $ingredients;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $published = null;
+    private ?bool $published = false;
 
     public function __construct()
     {

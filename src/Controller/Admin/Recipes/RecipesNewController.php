@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Recipes;
 
+use App\Entity\Recipe;
 use App\Exception\Recipe\RecipeNotFoundException;
 use App\Exception\Shared\InvalidPictureException;
 use App\Exception\Shared\PictureNotUploadedException;
 use App\Form\RecipeFormType;
-use App\Service\Admin\Recipes\RecipeShowService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,22 +16,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin')]
-class RecipesEditController extends AbstractController
+class RecipesNewController extends AbstractController
 {
     public function __construct(
-        private readonly RecipeShowService $recipeShowService,
         private readonly IngredientsCollectionUpdater $ingredientsCollectionUpdater,
         private readonly RecipeImageUpdater $recipeImageUpdater,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
-    #[Route('/recipes/{id}/edit', name: 'app_admin_recipes_edit', methods: ['GET', 'POST'])]
-    public function __invoke(string $id, Request $request): RedirectResponse|Response
+    #[Route('/recipes/new', name: 'app_admin_recipes_new', methods: ['GET', 'POST'])]
+    public function __invoke(Request $request): RedirectResponse|Response
     {
         try {
-            $recipe = $this->recipeShowService->execute($id);
+            $recipe = new Recipe();
             $form = $this->createForm(RecipeFormType::class, $recipe);
 
             $form->handleRequest($request);
@@ -43,9 +41,9 @@ class RecipesEditController extends AbstractController
                 $recipe->updateUpdatedAt();
 
                 $this->entityManager->flush();
-                $this->addFlash('success', 'Recipe updated');
+                $this->addFlash('success', 'Recipe added');
 
-                return $this->redirectToRoute('app_admin_recipes_index', compact('id'));
+                return $this->redirectToRoute('app_admin_recipes_index', ['id' => (string)$recipe->getId()]);
             }
         } catch (RecipeNotFoundException|InvalidPictureException|PictureNotUploadedException $exception) {
             $this->addFlash('error', $exception->getMessage());
@@ -53,7 +51,7 @@ class RecipesEditController extends AbstractController
             return $this->redirectToRoute('app_admin_recipes_index');
         }
 
-        return $this->render('admin/recipes/edit.html.twig', [
+        return $this->render('admin/recipes/new.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView()
         ]);

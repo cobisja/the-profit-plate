@@ -12,6 +12,8 @@ export default class extends Controller {
   static targets = ["imageContainer", "modalTitle", "zoomModal"];
 
   zoomImage(event) {
+    event.preventDefault();
+
     const imageElement = $(event.currentTarget).find(this.imageSelectorValue);
 
     if (!imageElement.length) {

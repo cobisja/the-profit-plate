@@ -1,7 +1,6 @@
 {{ form_start(form, { attr: {
     class: 'form d-flex flex-column flex-lg-row', novalidate: 'novalidate',
     'data-controller': 'admin--recipes--recipe-sale-price-updater',
-    'data-admin--recipes--recipe-sale-price-updater-url-value': path('admin_recipe_sales_prices_show', { id: recipe.id }),
     'data-action': "admin--recipes-ingredients--total-costs-updater:total-ingredient-costs:updated->admin--recipes--recipe-sale-price-updater#updateSalePrice"
 }}) }}
 <!--begin::Aside column-->

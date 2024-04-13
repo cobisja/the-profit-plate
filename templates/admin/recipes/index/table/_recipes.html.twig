@@ -11,8 +11,8 @@
                 ? uploads_folder ~ '/recipes/' ~ recipe.picture
                 : 'templates/media/files/blank-image.svg'
             ) %}
-            <a href="{{ path('app_admin_products_show', { id: recipe.id }) }}">
-                <img src="{{ url }}" alt="{{ recipe.name }}" width="32">
+            <a href="#" data-action="admin--shared--image-zoom#zoomImage">
+                <img src="{{ url }}" alt="{{ recipe.name }}" width="32" class="zoom-image">
             </a>
         </td>
         <td>{{ recipe.recipeType.name|capitalize }}</td>
@@ -23,7 +23,7 @@
             >{{ recipe.published ? 'Published' : 'Draft' }}</span></td>
         <td>{{ recipe.updatedAt|time_diff }}</td>
         <td>
-            <twig:show-button url="{{ path('app_admin_products_show', { id: recipe.id }) }}"/>
+{#            <twig:show-button url="{{ path('app_admin_products_show', { id: recipe.id }) }}"/>#}
             <twig:edit-button
                     url="{{ path('app_admin_recipes_edit', { id: recipe.id }) }}"
                     showInModal="0"

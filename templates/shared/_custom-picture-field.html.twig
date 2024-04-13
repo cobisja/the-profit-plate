@@ -1,15 +1,17 @@
 {{ form_errors(form) }}
 <div class="image-input image-input-empty image-input-outline image-input-placeholder mt-5 mb-3"
      data-controller="admin--shared--table-updater admin--shared--modal-form admin--shared--table-filter"
-     data-action="click->admin--shared--image-zoom#zoomImage"
      data-kt-image-input="true"
 >
     {% set image_url = picture_url|default(asset('templates/media/files/blank-image.svg')) %}
 
-    <div class="image-input-wrapper w-150px h-150px zoom-image cursor-pointer"
-         data-image-url="{{ image_url }}"
-         style="background-image: url({{ image_url }})"
-    ></div>
+    <div data-action="click->admin--shared--image-zoom#zoomImage">
+        <div class="image-input-wrapper w-150px h-150px zoom-image cursor-pointer"
+             data-image-url="{{ image_url }}"
+             style="background-image: url({{ image_url }})"
+
+        ></div>
+    </div>
     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
            data-kt-image-input-action="change" data-bs-toggle="tooltip"
            aria-label="Change picture" data-bs-original-title="Change picture"
