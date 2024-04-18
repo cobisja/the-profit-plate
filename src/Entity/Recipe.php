@@ -196,6 +196,8 @@ class Recipe
     public function setPublished(bool $published): void
     {
         $this->published = $published;
+
+        $this->updateUpdatedAt();
     }
 
     public function updateUpdatedAt(): void

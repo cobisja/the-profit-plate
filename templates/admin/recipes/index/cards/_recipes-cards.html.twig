@@ -56,6 +56,10 @@
                                                    type="checkbox"
                                                    value="1"
                                                    name="recipe[is_published]"
+                                                   data-controller="admin--recipes--publish-status-input"
+                                                   data-admin--recipes--publish-status-input-url-value="{{ path('app_admin_recipes_publish_status_patch', { id: recipe.id }) }}"
+                                                   data-admin--recipes--publish-status-input-csrf-token-id-value="{{ csrf_token('publish' ~ recipe.id) }}"
+                                                   data-action="admin--recipes--publish-status-input#updatePublishStatus"
                                                     {{ recipe.published ? 'checked="checked"' : '' }}
                                             >
                                             <!--end::Input-->

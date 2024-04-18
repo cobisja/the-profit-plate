@@ -17,6 +17,8 @@
          data-action="recipes_search_updated->admin--recipes--recipes-counter#updateCounter"
     >
         {% include 'admin/recipes/index/_toolbar.html.twig' with { recipes } %}
+        {% include 'shared/_flash-messages.html.twig' %}
+
         <div class="tab-content"
              data-controller="admin--shared--image-zoom"
              data-admin--shared--image-zoom-image-selector-value="img.zoom-image"

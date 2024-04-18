@@ -1,5 +1,7 @@
 {% for recipe in recipes %}
-    <tr data-row-index="{{ loop.index0 }}">
+    <tr data-controller="admin--recipes--table-publish-column-updater"
+        data-action="admin--recipes--publish-status-button:publish_status_updated->admin--recipes--table-publish-column-updater#updatePublishStatus"
+    >
         <td>
             <a href="{{ path('app_admin_products_show', { id: recipe.id }) }}" class="link text-black">
                 {{ recipe.name|capitalize }}
@@ -20,10 +22,17 @@
         <td>{{ recipe.expensesPercentage|number_format(2) }}%</td>
         <td>{{ recipe.profitPercentage|number_format(2) }}%</td>
         <td><span class="badge badge-{{ recipe.published ? 'success' : 'light-primary' }}"
+                  data-admin--recipes--table-publish-column-updater-target="publishStatus"
             >{{ recipe.published ? 'Published' : 'Draft' }}</span></td>
         <td>{{ recipe.updatedAt|time_diff }}</td>
         <td>
-{#            <twig:show-button url="{{ path('app_admin_products_show', { id: recipe.id }) }}"/>#}
+            <a href="{{ path('app_admin_recipes_publish_status_patch', { id: recipe.id }) }}"
+               class="btn btn-sm btn-light-secondary ms-lg-5 float-start"
+               data-controller="admin--recipes--publish-status-button"
+               data-admin--recipes--publish-status-button-csrf-token-id-value="{{ csrf_token('publish' ~ recipe.id) }}"
+               data-admin--recipes--publish-status-button-published-status-value="{{ recipe.published ? '1' : '0' }}"
+               data-action="admin--recipes--publish-status-button#updatePublishStatus"
+            >{{ recipe.published ? 'Unpublish' : 'Publish' }}</a>
             <twig:edit-button
                     url="{{ path('app_admin_recipes_edit', { id: recipe.id }) }}"
                     showInModal="0"
