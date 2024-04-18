@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/dbal": "^3",
@@ -41,12 +41,14 @@
         "symfony/twig-bundle": "6.4.*",
         "symfony/uid": "6.4.*",
         "symfony/ux-chartjs": "^2.16",
+        "symfony/ux-live-component": "^2.16",
         "symfony/ux-twig-component": "^2.16",
         "symfony/validator": "6.4.*",
         "symfony/web-link": "6.4.*",
         "symfony/yaml": "6.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.8",
+        "twig/string-extra": "^3.8",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {

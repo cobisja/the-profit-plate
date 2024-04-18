@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecipeIngredientRepository::class)]
 #[ORM\Table(name: 'recipe_ingredients')]
@@ -19,18 +20,32 @@ class RecipeIngredient
     private ?Uuid $id = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, options: ['unsigned' => true, 'default' => 0])]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     private ?string $quantity = null;
 
     #[ORM\Column(length: 6)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 6)]
     private ?string $unit = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ingredients')]
+    #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, options: ['unsigned' => true, 'default' => 0])]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
+    private ?string $cost = null;
+
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'ingredients',)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Recipe $recipe = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
+
+    public function __construct()
+    {
+        $this->cost = '0.00';
+    }
 
     public function getId(): ?Uuid
     {
@@ -42,12 +57,12 @@ class RecipeIngredient
         $this->id = $id;
     }
 
-    public function getQuantity(): ?float
+    public function getQuantity(): ?string
     {
-        return (float)$this->quantity;
+        return $this->quantity;
     }
 
-    public function setQuantity(string $quantity): void
+    public function setQuantity(?string $quantity): void
     {
         $this->quantity = $quantity;
     }
@@ -57,9 +72,19 @@ class RecipeIngredient
         return $this->unit;
     }
 
-    public function setUnit(string $unit): void
+    public function setUnit(?string $unit): void
     {
         $this->unit = $unit;
+    }
+
+    public function getCost(): ?string
+    {
+        return $this->cost;
+    }
+
+    public function setCost(?string $cost): void
+    {
+        $this->cost = $cost ?? '0';
     }
 
     public function getRecipe(): ?Recipe

@@ -1,0 +1,104 @@
+{{ form_start(form, { attr: {
+    class: 'form d-flex flex-column flex-lg-row', novalidate: 'novalidate',
+    'data-controller': 'admin--recipes--recipe-sale-price-updater',
+    'data-action': "admin--recipes-ingredients--total-costs-updater:total-ingredient-costs:updated->admin--recipes--recipe-sale-price-updater#updateSalePrice"
+}}) }}
+<!--begin::Aside column-->
+<div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+    <div class="card card-flush py-4">
+        <div class="card-header">
+            <div class="card-title">
+                <label class="form-label required">Picture</label>
+            </div>
+        </div>
+        <div class="card-body text-center pt-0">
+            {{ form_row(form.picture, { picture_url:
+                recipe.picture ? asset(uploads_folder ~ '/recipes/' ~ recipe.picture) : '' }) }}
+        </div>
+    </div>
+</div>
+<!--end::Aside column-->
+<!--begin::Main column-->
+<div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+    <div class="d-flex flex-column gap-7 gap-lg-10">
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <ul class="my-lg-5 nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8"
+                        role="tablist">
+                        <!--begin:::Tab item-->
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4 ms-3 active"
+                               data-bs-toggle="tab"
+                               href="#recipe_overview_tab"
+                               aria-selected="false"
+                               role="tab"
+                               tabindex="-1"
+                            >Overview</a>
+                        </li>
+                        <!--end:::Tab item-->
+                        <!--begin:::Tab item-->
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4"
+                               data-bs-toggle="tab"
+                               href="#recipe_ingredients_tab"
+                               aria-selected="false"
+                               role="tab"
+                               tabindex="-1"
+                            >Ingredients</a>
+                        </li>
+                        <!--end:::Tab item-->
+                        <!--begin:::Tab item-->
+                        <li class="nav-item">
+                            <a class="nav-link text-active-primary pb-4"
+                               data-bs-toggle="tab"
+                               href="#recipe_directions_tab"
+                               aria-selected="false"
+                               role="tab"
+                               tabindex="-1"
+                            >Directions</a>
+                        </li>
+                        <!--end:::Tab item-->
+                    </ul>
+                </div>
+                <div class="card-toolbar">
+                    <div class="d-flex flex-column text-center border border-primary border-dashed rounded py-1 px-2 bg-light-primary">
+                        <div class="d-flex align-items-center">
+                            <span class="fs-5 text-gray-600"
+                            >Sale price x serving:&nbsp;</span><span
+                                    class="fs-4 fw-bold text-gray-900 me-2 lh-1 ls-n2"
+                            >$<span data-admin--recipes--recipe-sale-price-updater-target="salePrice"
+                                >0.00</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-5">
+                {% if not form.vars.valid %}
+                    <twig:alert title="Task could not be completed"
+                                message="Data could not be saved because there are errors in the form. Fix them and try again"
+                                type="error"
+                    />
+                {% endif %}
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="recipe_overview_tab" role="tabpanel">
+                        {% include 'admin/recipes/form/_overview.html.twig' with { form } %}
+                    </div>
+                    <div class="tab-pane fade" id="recipe_ingredients_tab" role="tabpanel">
+                        {% include 'admin/recipes/form/_ingredients.html.twig' with { recipe, form } %}
+                    </div>
+                    <div class="tab-pane fade" id="recipe_directions_tab" role="tabpanel">
+                        {% include 'admin/recipes/form/_directions.html.twig' with { form } %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Tab pane-->
+    <div class="d-flex justify-content-end">
+        <a href="{{ path('app_admin_recipes_index') }}" class="btn btn-light me-5">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</div>
+<!--end::Main column-->
+{{ form_end(form) }}

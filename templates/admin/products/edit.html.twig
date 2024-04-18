@@ -18,11 +18,11 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('styles/products.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/trix-toolbar.css') }}">
 {% endblock %}
 
 {% block _product_form_picture_row %}
-    {% include 'admin/products/_custom-picture-field.html.twig' with { form } %}
+    {% include 'shared/_custom-picture-field.html.twig' with { form } %}
 {% endblock %}
 
 {% block content %}

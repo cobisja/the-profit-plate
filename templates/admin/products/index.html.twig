@@ -14,9 +14,8 @@
 
 {% block content %}
     <div class="row g-7"
-         data-controller="admin--shared--table-updater admin--shared--modal-form admin--shared--table-filter"
-         data-admin--shared--table-updater-filter-column-index-value="2"
-         data-action="admin--shared--modal-form:item-added->admin--shared--table-updater#addRow admin--shared--modal-form:item-updated->admin--shared--table-updater#updateRow admin--shared--delete-item-button:item-deleted->admin--shared--table-updater#deleteRow admin--shared--modal-filter:filter_applied->admin--shared--table-updater#applyFilter admin--shared--modal-filter:filter_reset->admin--shared--table-updater#clearFilter"
+         data-controller="admin--shared--modal-form admin--shared--table-filter"
+         data-action="admin--shared--modal-filter:filter_applied->admin--shared--table-updater#applyFilter admin--shared--modal-filter:filter_reset->admin--shared--table-updater#clearFilter"
     >
         <div class="col-lg-6 col-xl-12">
             <div class="card mb-6">

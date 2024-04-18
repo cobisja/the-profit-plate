@@ -1,0 +1,13 @@
+<div data-controller="admin--recipes-ingredients--total-costs-updater"
+     data-action="ingredients_collection:updated->admin--recipes-ingredients--total-costs-updater#updateTotalCost"
+>
+    <twig:ingredients-collection :form="form" :initialFormData="recipe"/>
+    <div class="separator my-10"></div>
+    <div class="text-end">
+        <span class="fs-5 text-gray-600">Total costs:&nbsp;</span><span
+                class="fs-4 fw-bold text-gray-900 me-2 lh-1 ls-n2"
+        >$<span data-admin--recipes-ingredients--total-costs-updater-target="totalCosts"
+                data-admin--recipes--recipe-sale-price-updater-target="totalCosts"
+            >0.00</span></span>
+    </div>
+</div>

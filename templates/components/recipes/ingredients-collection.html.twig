@@ -1,0 +1,64 @@
+{% props form, initialFormData %}
+
+<div {{ attributes }}>
+    {% for key, ingredient in form.ingredients %}
+        <div class="form-group row mb-10"
+             data-controller="admin--recipes-ingredients--cost-updater"
+             data-admin--recipes-ingredients--cost-updater-url-value="{{ path('admin_recipe_ingredient_costs_show') }}"
+        >
+            <div class="col-lg-4">
+                {{ form_row(ingredient.product, { attr: {
+                    'data-action': "admin--recipes-ingredients--cost-updater#recalculateCost",
+                    'data-admin--recipes-ingredients--cost-updater-target': 'product'
+                } }) }}
+            </div>
+            <div class="col-lg-3">
+                {{ form_row(ingredient.quantity, { attr: {
+                    'data-action': "admin--recipes-ingredients--cost-updater#recalculateCost",
+                    'data-admin--recipes-ingredients--cost-updater-target': 'quantity'
+                } }) }}
+                <div class="text-muted fs-7">Up to two decimals</div>
+            </div>
+            <div class="col-lg-2">
+                {{ form_row(ingredient.unit, { attr: {
+                    'data-action': "admin--recipes-ingredients--cost-updater#recalculateCost",
+                    'data-admin--recipes-ingredients--cost-updater-target': 'unit'
+                } }) }}
+            </div>
+            <div class="col-lg-2">
+                <label class="form-label">Cost</label>
+                <div class="form-control bg-light-secondary">
+                    $<span
+                            data-live-ignore
+                            data-admin--recipes-ingredients--cost-updater-target="cost"
+                            data-admin--recipes-ingredients--total-costs-updater-target="ingredientCost"
+                    >0.00</span>
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <button class="btn btn-sm btn-icon btn-flex flex-center btn-light-danger mt-3 mt-md-9"
+                        data-action="live#action"
+                        data-live-action-param="removeIngredientRow"
+                        data-live-index-param="{{ key }}"
+                        type="button"
+                ><i class="ki-duotone ki-trash fs-5"
+                    ><span class="path1"
+                        ></span><span class="path2"
+                        ></span><span class="path3"
+                        ></span><span class="path4"
+                        ></span><span class="path5"
+                        ></span></i>
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="form-group">
+        <button class="btn btn-sm btn-flex flex-center btn-light-primary"
+                data-action="live#action"
+                data-live-action-param="addIngredientRow"
+                type="button"
+        >
+            <i class="ki-duotone ki-plus fs-3"></i> Add ingredient
+        </button>
+    </div>
+</div>
