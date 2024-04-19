@@ -41,7 +41,7 @@ class Product
 
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, options: ['unsigned' => true, 'default' => 0])]
     #[Assert\NotBlank]
-    #[Assert\Positive]
+    #[Assert\PositiveOrZero]
     private ?string $wasteRate = null;
 
     #[ORM\Column]
@@ -52,10 +52,15 @@ class Product
     #[Assert\NotBlank]
     private ?ProductType $productType = null;
 
+    #[ORM\OneToMany(RecipeIngredient::class, mappedBy: 'product')]
+    private Collection $recipeIngredients;
+
     public function __construct()
     {
         $this->updateUpdatedAt();
+
         $this->priceVariations = new ArrayCollection();
+        $this->recipeIngredients = new ArrayCollection();
     }
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -197,5 +202,15 @@ class Product
         $pricePerUnit = (float)$this->pricePerUnit;
 
         return round($pricePerUnit + $pricePerUnit * $this->wasteRate / 100, 2);
+    }
+
+    public function getRecipeIngredients(): Collection
+    {
+        return $this->recipeIngredients;
+    }
+
+    public function setRecipeIngredients(Collection $recipeIngredients): void
+    {
+        $this->recipeIngredients = $recipeIngredients;
     }
 }

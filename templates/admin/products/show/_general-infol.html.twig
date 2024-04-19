@@ -8,8 +8,17 @@
         <div class="fw-bold fs-5">{{ product.unit }}</div>
     </div>
     <div class="d-flex flex-column gap-1">
-        <div class="fw-bold text-muted">Price</div>
+        <div class="fw-bold text-muted">Price per unit</div>
         <div class="fw-bold fs-5">{{ product.pricePerUnit|format_currency('USD') }}</div>
+    </div>
+    <div class="d-flex flex-column gap-1">
+        <div class="fw-bold text-muted">Waste rate</div>
+        <div class="fw-bold fs-5">{{ product.wasteRate }}%</div>
+    </div>
+    <div class="d-flex flex-column gap-1">
+        {% set netPrice = product.pricePerUnit + product.pricePerUnit * product.wasteRate / 100 %}
+        <div class="fw-bold text-muted">Net price</div>
+        <div class="fw-bold fs-5">{{ netPrice|format_currency('USD') }}</div>
     </div>
     <div class="d-flex flex-column gap-1">
         <div class="fw-bold text-muted">Notes</div>

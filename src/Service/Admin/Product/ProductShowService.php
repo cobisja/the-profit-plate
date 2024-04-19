@@ -19,7 +19,7 @@ readonly class ProductShowService
      */
     public function execute(string $id): Product
     {
-        if (!$product = $this->productRepository->findByIdWithItsTypeAndPriceVariations($id)) {
+        if (!$product = $this->productRepository->findByIdWithItsRelationships($id)) {
             throw new ProductNotFoundException();
         }
 

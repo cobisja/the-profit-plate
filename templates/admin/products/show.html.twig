@@ -15,7 +15,7 @@
 
 {% block content %}
     <div class="row g-7"
-         data-controller="admin--products--price-variations-chart"
+         data-controller="admin--products--price-variations-chart admin--shared--image-zoom"
          data-admin--products--price-variations-chart-url-value="{{ path('app_admin_products_price_variations_chart_show', {
              id: product.id
          }) }}"
@@ -96,10 +96,13 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-5">
                     <div class="d-flex gap-7 align-items-center">
-                        <div class="symbol symbol-circle symbol-150px">
+                        <div class="symbol symbol-circle symbol-150px cursor-pointer"
+                             data-action="click->admin--shared--image-zoom#zoomImage"
+                        >
                             <img src="{{ asset(uploads_folder ~ '/products/' ~ product.picture) }}"
                                  width="150"
                                  alt="{{ product.name }}"
+                                 class="zoom-image"
                             >
                         </div>
                         <div class="d-flex flex-column gap-2">
@@ -111,7 +114,7 @@
                                     <span class="path2"></span>
                                 </i>
                                 <a href="#" class="text-muted text-hover-primary"
-                                >{{ product.updatedAt|date('D, d M Y H:i:s') }}</a>
+                                >{{ product.updatedAt|ago }}</a>
                             </div>
                         </div>
                     </div>
@@ -197,5 +200,6 @@
             </div>
         </div>
         {% include 'admin/products/show/_price-variations-chart-modal.html.twig' with { product } %}
+        {% include 'shared/_modal-zoom-image.html.twig' %}
     </div>
 {% endblock %}

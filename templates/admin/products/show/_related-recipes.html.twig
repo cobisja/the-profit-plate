@@ -1,164 +1,31 @@
-<!--begin::Timeline-->
-<div class="timeline-label">
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">08:42</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-warning fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Text-->
-        <div class="fw-mormal timeline-content text-muted ps-3">Outlines keep you honest.
-            And keep structure
-        </div>
-        <!--end::Text-->
+<div class="card card-flush h-lg-100">
+    <div class="card-header pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bold text-gray-900">{{ product.recipeIngredients|length }} Recipes</span>
+        </h3>
     </div>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">10:00</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-success fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Content-->
-        <div class="timeline-content d-flex">
-            <span class="fw-bold text-gray-800 ps-3">AEOL meeting</span>
-        </div>
-        <!--end::Content-->
+    <div class="card-body pt-5">
+        {% for recipeIngredient in product.recipeIngredients %}
+            <div class="d-flex flex-stack">
+                <div class="text-gray-700 fw-semibold fs-6 me-2">
+                    {{ recipeIngredient.recipe.name|capitalize }}
+                    <a href="{{ path('app_admin_recipes_edit', { id: recipeIngredient.recipe.id }) }}" target="_blank">
+                        <i class="ki-duotone ki-exit-right-corner fs-2"
+                           data-bs-toggle="tooltip"
+                           data-bs-placement="top"
+                           title="View recipe"
+                        >
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </a>
+                </div>
+                <div class="d-flex align-items-center"
+                ><span class="text-gray-500 fw-bold fs-6"
+                    >{{ sale_price_of_recipe(recipeIngredient.recipe)|number_format(2)|format_currency('USD') }}</span>
+                </div>
+            </div>
+            <div class="separator separator-dashed my-3"></div>
+        {% endfor %}
     </div>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">14:37</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-danger fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Desc-->
-        <div class="timeline-content fw-bold text-gray-800 ps-3">Make deposit
-            <a href="#" class="text-primary">USD 700</a>. to ESL
-        </div>
-        <!--end::Desc-->
-    </div>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">16:50</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-primary fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Text-->
-        <div class="timeline-content fw-mormal text-muted ps-3">Indulging in poorly driving
-            and keep structure keep great
-        </div>
-        <!--end::Text-->
-    </div>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">21:03</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-danger fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Desc-->
-        <div class="timeline-content fw-semibold text-gray-800 ps-3">New order placed
-            <a href="#" class="text-primary">#XF-2356</a>.
-        </div>
-        <!--end::Desc-->
-    </div>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">16:50</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-primary fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Text-->
-        <div class="timeline-content fw-mormal text-muted ps-3">Indulging in poorly driving
-            and keep structure keep great
-        </div>
-        <!--end::Text-->
-    </div>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">21:03</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-danger fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Desc-->
-        <div class="timeline-content fw-semibold text-gray-800 ps-3">New order placed
-            <a href="#" class="text-primary">#XF-2356</a>.
-        </div>
-        <!--end::Desc-->
-    </div>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <div class="timeline-item">
-        <!--begin::Label-->
-        <div class="timeline-label fw-bold text-gray-800 fs-6">10:30</div>
-        <!--end::Label-->
-        <!--begin::Badge-->
-        <div class="timeline-badge">
-            <i class="ki-duotone ki-abstract-8 text-success fs-1">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-        <!--end::Badge-->
-        <!--begin::Text-->
-        <div class="timeline-content fw-mormal text-muted ps-3">Finance KPI Mobile app
-            launch preparion meeting
-        </div>
-        <!--end::Text-->
-    </div>
-    <!--end::Item-->
 </div>
-<!--end::Timeline-->

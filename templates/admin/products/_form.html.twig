@@ -24,24 +24,32 @@
                 </div>
             </div>
             <div class="card-body pt-0">
-                <div class="mb-10">
-                    {{ form_row(form.name) }}
-                    <div class="text-muted fs-7">The product name must be unique</div>
-                </div>
-                <div class="mb-10">
-                    {{ form_row(form.productType) }}
-                </div>
-                <div class="mb-10">
-                    {{ form_row(form.unit) }}
-                    <div class="text-muted fs-7 mt-3">
-                        This unit of measurement will be used to calculate the cost in the recipes (See
-                        <a href="{{ path('app_admin_conversion_factors_index') }}" target="_blank"
-                        >Conversion factors</a>)
+                <div class="row mb-10">
+                    <div class="col-lg-8">
+                        {{ form_row(form.name) }}
+                        <div class="text-muted fs-7">The product name must be unique</div>
+                    </div>
+                    <div class="col-lg-4">
+                        {{ form_row(form.productType) }}
                     </div>
                 </div>
-                <div class="mb-10">
-                    {{ form_row(form.pricePerUnit) }}
-                    <div class="text-muted fs-7">The price can have 2 decimals as much</div>
+                <div class="row mb-10">
+                    <div class="col-lg-4">
+                        {{ form_row(form.unit) }}
+                        <div class="text-muted fs-7 mt-3">
+                            This unit of measurement will be used to calculate the cost in the recipes (See
+                            <a href="{{ path('app_admin_conversion_factors_index') }}" target="_blank"
+                            >Conversion factors</a>)
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        {{ form_row(form.pricePerUnit) }}
+                        <div class="text-muted fs-7">The price can have 2 decimals as much</div>
+                    </div>
+                    <div class="col-lg-4">
+                        {{ form_row(form.wasteRate) }}
+                        <div class="text-muted fs-7">The waste rate can have 2 decimals as much</div>
+                    </div>
                 </div>
                 <div>
                     <label class="form-label pb-3">Notes</label>

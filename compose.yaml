@@ -2,7 +2,6 @@ services:
 
 ###> doctrine/doctrine-bundle ###
   database:
-#    container_name: fbc_database
     image: mysql:8.3
     environment:
       - MYSQL_DATABASE=fbc

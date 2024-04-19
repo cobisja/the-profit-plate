@@ -28,12 +28,14 @@ class ProductRepository extends BaseRepository
             ->getResult();
     }
 
-    public function findByIdWithItsTypeAndPriceVariations(string $id): ?Product
+    public function findByIdWithItsRelationships(string $id): ?Product
     {
         return $this->createQueryBuilder('p')
-            ->addSelect('pt, pv')
+            ->addSelect('pt, pv, ri, r')
             ->innerJoin('p.productType', 'pt')
             ->leftJoin('p.priceVariations', 'pv')
+            ->leftJoin('p.recipeIngredients', 'ri')
+            ->leftJoin('ri.recipe', 'r')
             ->where('p.id = :id')
             ->setParameter('id', Uuid::fromString($id)->toBinary(), ParameterType::BINARY)
             ->getQuery()

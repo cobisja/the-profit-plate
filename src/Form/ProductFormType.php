@@ -72,6 +72,7 @@ class ProductFormType extends AbstractType
                 'choices' => array_merge(...array_map(static fn(string $unit) => [$unit => $unit], $availableUnits))
             ])
             ->add('pricePerUnit')
+            ->add('wasteRate')
             ->add('notes', HiddenType::class)
             ->add('productType', EntityType::class, [
                 'class' => ProductType::class,

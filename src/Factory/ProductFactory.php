@@ -48,7 +48,7 @@ final class ProductFactory extends ModelFactory
     {
         return [
             'name' => self::faker()->unique()->domainWord(),
-            'picture' => self::faker()->imageUrl(64, 64,  'food'),
+            'picture' => '',
             'pricePerUnit' => self::faker()->randomFloat(
                 random_int(1, 4),
                 1,
@@ -58,7 +58,8 @@ final class ProductFactory extends ModelFactory
                 self::faker()->randomElement(['??', '???'])
             ),
             'updatedAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'notes' => self::faker()->optional()->text()
+            'notes' => self::faker()->optional()->text(),
+            'wasteRate' => self::faker()->randomFloat(2, 1, 100),
         ];
     }
 
