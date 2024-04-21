@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Recipes;
+namespace App\Service\Admin\Recipes;
 
 use App\Entity\Recipe;
 use App\Exception\Shared\InvalidPictureException;
@@ -11,7 +11,7 @@ use App\Service\Admin\Shared\PictureUploaderService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
-final readonly class RecipeImageUpdater
+final readonly class RecipeImageUpdaterService
 {
     public function __construct(
         private PictureUploaderService $pictureUploaderService,

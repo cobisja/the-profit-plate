@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Recipes;
+namespace App\Service\Admin\Recipes;
 
 use App\Entity\RecipeIngredient;
 use App\Exception\Product\ProductNotFoundException;
 use App\Service\Admin\RecipeIngredient\IngredientCostCalculatorService;
 use Doctrine\ORM\EntityManagerInterface;
 
-final readonly class IngredientsCollectionUpdater
+final readonly class IngredientsCollectionUpdaterService
 {
     public function __construct(
         private IngredientCostCalculatorService $ingredientCostCalculatorService,

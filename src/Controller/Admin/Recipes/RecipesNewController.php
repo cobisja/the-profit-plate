@@ -9,6 +9,8 @@ use App\Exception\Recipe\RecipeNotFoundException;
 use App\Exception\Shared\InvalidPictureException;
 use App\Exception\Shared\PictureNotUploadedException;
 use App\Form\RecipeFormType;
+use App\Service\Admin\Recipes\IngredientsCollectionUpdaterService;
+use App\Service\Admin\Recipes\RecipeImageUpdaterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,11 +18,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/admin')]
 class RecipesNewController extends AbstractController
 {
     public function __construct(
-        private readonly IngredientsCollectionUpdater $ingredientsCollectionUpdater,
-        private readonly RecipeImageUpdater $recipeImageUpdater,
+        private readonly IngredientsCollectionUpdaterService $ingredientsCollectionUpdater,
+        private readonly RecipeImageUpdaterService $recipeImageUpdater,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }

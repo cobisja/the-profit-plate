@@ -1,0 +1,84 @@
+<div class="col-xxl-6 mb-5 mb-xl-0">
+    <!--begin::List widget 8-->
+    <div class="card card-flush h-lg-100">
+        <!--begin::Header-->
+        <div class="card-header pt-7 mb-5">
+            <!--begin::Title-->
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label fw-bold text-gray-800">Latest Recipes</span>
+                {% if recipes|length %}
+                    <span class="text-gray-500 mt-1 fw-semibold fs-6">{{ recipes[0].updatedAt|ago }}</span>
+                {% endif %}
+            </h3>
+            <!--end::Title-->
+            <!--begin::Toolbar-->
+            <div class="card-toolbar">
+                {% if recipes|length %}
+                    <a href="{{ path('app_admin_recipes_index') }}" class="btn btn-sm btn-light">View All</a>
+                {% endif %}
+            </div>
+            <!--end::Toolbar-->
+        </div>
+        <!--end::Header-->
+        <!--begin::Body-->
+        <div class="card-body pt-0">
+            <!--begin::Items-->
+            <div class="m-0">
+                {% set bullet_colors = ['info', 'primary', 'warning', 'success', 'danger', 'secondary'] %}
+                {% for recipe in recipes %}
+                    {% set bullet_color = bullet_colors[loop.index0 % 6] %}
+                    <!--begin::Item-->
+                    <div class="d-flex flex-stack">
+                        <span class="bullet bullet-vertical d-flex align-items-center min-h-50px mh-100 me-4 bg-{{ bullet_color }}"
+                        ></span>
+                        {% set url = asset(
+                            recipe.picture
+                            ? uploads_folder ~ '/recipes/' ~ recipe.picture
+                            : 'templates/media/files/blank-image.svg'
+                        ) %}
+                        <a href="#" data-action="admin--shared--image-zoom#zoomImage">
+                            <img src="{{ url }}"
+                                 class="me-4 w-25px zoom-image"
+                                 style="border-radius: 4px"
+                                 alt="{{ recipe.name }}"
+                            >
+                        </a>
+                        <!--begin::Section-->
+                        <div class="d-flex flex-stack flex-row-fluid d-grid gap-2">
+                            <!--begin::Content-->
+                            <div class="me-5">
+                                <!--begin::Title-->
+                                <a href="{{ path('app_admin_recipes_edit', { id: recipe.id }) }}"
+                                   class="text-gray-800 fw-bold text-hover-primary fs-6"
+                                >{{ recipe.name|capitalize }}</a>
+                                <!--end::Title-->
+                                <!--begin::Desc-->
+                                <span class="text-gray-500 fw-semibold fs-7 d-block text-start ps-0"
+                                >{{ recipe.recipeType.name|capitalize }} - updated {{ recipe.updatedAt|ago }}</span>
+                                <!--end::Desc-->
+                            </div>
+                            <!--end::Content-->
+                            <!--begin::Info-->
+                            <div class="d-flex align-items-center">
+                                <!--begin::Number-->
+                                <span class="text-gray-800 fw-bold fs-6 me-3 d-block">
+                                    {{ sale_price_of_recipe(recipe)|number_format(2)|format_currency('USD') }}
+                                </span>
+                                <!--end::Number-->
+                            </div>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::Section-->
+                    </div>
+                    <!--end::Item-->
+                    <!--begin::Separator-->
+                    <div class="separator separator-dashed my-3"></div>
+                    <!--end::Separator-->
+                {% endfor %}
+            </div>
+            <!--end::Items-->
+        </div>
+        <!--end::Body-->
+    </div>
+    <!--end::LIst widget 8-->
+</div>

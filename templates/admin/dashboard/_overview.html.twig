@@ -1,0 +1,133 @@
+<div class="row row-cols-1 row-cols-lg-4 row-cols-md-2">
+    <div class="col">
+        <div class="card card-flush carousel carousel-custom carousel-stretch slide"
+             id="recipe_types_slider"
+             data-bs-ride="carousel"
+             data-bs-interval="5000"
+        >
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="flex-grow-1 overflow-hidden">
+                        <h5 class="text-muted text-uppercase fs-13 mt-0">Recipe Types</h5>
+                        <div class="d-flex justify-content-between">
+                            <h3 class="my-3">{{ overview.recipe_types.total }}</h3>
+                            <!--begin::Carousel Indicators-->
+                            <ol class="p-0 m-0 carousel-indicators carousel-indicators-bullet carousel-indicators-active-primary">
+                                {% for _ in 1..overview.recipe_types.total %}
+                                    <li data-bs-target="#recipe_types_slider"
+                                        data-bs-slide-to="{{ loop.index0 }}"
+                                        class="ms-1 {{ loop.first ? 'active' : '' }}"
+                                        aria-current="true"
+                                    ></li>
+                                {% endfor %}
+                            </ol>
+                            <!--end::Carousel Indicators-->
+                        </div>
+                        <div class="carousel-inner">
+                            {% for total_recipe_type in overview.recipe_types.total_recipes_per_type %}
+                                <div class="carousel-item show {{ loop.first ? 'active' : '' }}">
+                                    <a href="{{ path('app_admin_recipes_index', { query: '', recipeTypeName: total_recipe_type.recipe_type.name}) }}"
+                                       class="mb-0 text-muted text-truncate"
+                                    ><span class="badge badge-light-primary fs-base"
+                                        >{{ total_recipe_type.number_of_recipes }} recipes</span>
+                                        <span>in {{ total_recipe_type.recipe_type.name|capitalize }}</span>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col">
+        <div class="card card-flush">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="flex-grow-1 overflow-hidden">
+                        {% set variation = overview.recipes.updates_variation * 100 %}
+                        {% set variation_color = 0 <= variation ? 'success' : 'danger' %}
+                        {% set variation_direction = 0 < variation ? 'up' : (0 > variation ? 'down' : '') %}
+                        <h5 class="text-muted text-uppercase fs-13 mt-0" title="Number of Orders">Recipes</h5>
+                        <h3 class="my-3">{{ overview.recipes.total }}</h3>
+                        <p class="mb-0 text-muted text-truncate"
+                        ><span class="badge badge-light-{{ variation_color }} fs-base"
+                            ><i class="ki-duotone ki-arrow-{{ variation_direction }} fs-5 text-{{ variation_color }} ms-n1"
+                                ><span class="path1"
+                                    ></span><span class="path2"
+                                    ></span></i>{{ variation|abs|number_format(2) }}%</span>
+                            <span>Updates since last month</span>
+                        </p>
+                    </div>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col">
+        <div class="card card-flush carousel carousel-custom carousel-stretch slide"
+             id="product_types_slider"
+             data-bs-ride="carousel"
+             data-bs-interval="5000"
+        >
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="flex-grow-1 overflow-hidden">
+                        <h5 class="text-muted text-uppercase fs-13 mt-0">Product Types</h5>
+                        <div class="d-flex justify-content-between">
+                            <h3 class="my-3">{{ overview.product_types.total }}</h3>
+                            <!--begin::Carousel Indicators-->
+                            <ol class="p-0 m-0 carousel-indicators carousel-indicators-bullet carousel-indicators-active-info">
+                                {% for _ in 1..overview.product_types.total %}
+                                    <li data-bs-target="#product_types_slider"
+                                        data-bs-slide-to="{{ loop.index0 }}"
+                                        class="ms-1 {{ loop.first ? 'active' : '' }}"
+                                        aria-current="true"
+                                    ></li>
+                                {% endfor %}
+                            </ol>
+                            <!--end::Carousel Indicators-->
+                        </div>
+                        <div class="carousel-inner">
+                            {% for total_product_type in overview.product_types.total_products_per_type %}
+                                <div class="carousel-item show {{ loop.first ? 'active' : '' }}">
+                                    <a href="{{ path('app_admin_products_index') }}"
+                                       class="mb-0 text-muted text-truncate"
+                                    ><span class="badge badge-light-info fs-base"
+                                        >{{ total_product_type.number_of_products }} products</span>
+                                        <span>in {{ total_product_type.product_type.name|capitalize }}</span>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col">
+        <div class="card widget-icon-box">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="flex-grow-1 overflow-hidden">
+                        {% set variation = overview.products.updates_variation * 100 %}
+                        {% set variation_color = 0 <= variation ? 'success' : 'danger' %}
+                        {% set variation_direction = 0 < variation ? 'up' : (0 > variation ? 'down' : '') %}
+                        <h5 class="text-muted text-uppercase fs-13 mt-0" title="Number of Orders">Products</h5>
+                        <h3 class="my-3">{{ overview.products.total }}</h3>
+                        <p class="mb-0 text-muted text-truncate"
+                        ><span class="badge badge-light-{{ variation_color }} fs-base"
+                            ><i class="ki-duotone ki-arrow-{{ variation_direction }} fs-5 text-{{ variation_color }} ms-n1"
+                                ><span class="path1"
+                                    ></span><span class="path2"
+                                    ></span></i>{{ variation|abs|number_format(2) }}%</span>
+                            <span>Updates since last month</span>
+                        </p>
+                    </div>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div>

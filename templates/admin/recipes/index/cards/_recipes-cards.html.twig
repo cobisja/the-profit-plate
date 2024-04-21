@@ -102,68 +102,66 @@
                     <!--begin::Footer-->
                     <div class="d-flex flex-stack flex-wrap">
                         <!--begin::Stats-->
-                        <div class="d-flex my-1">
-                            <!--begin::Stat-->
-                            <div class="border border-dashed border-gray-300 rounded d-flex align-items-center py-2 px-3"
-                                 data-bs-toggle="tooltip"
-                                 data-bs-placement="bottom"
-                                 title="Ingredients"
-                            >
-                                <i class="ki-duotone ki-text-number fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                    <span class="path4"></span>
-                                    <span class="path5"></span>
-                                    <span class="path6"></span>
-                                </i>
-                                <span class="ms-1 fs-7 fw-bold text-gray-600"
-                                >{{ recipe.ingredients|length }}</span>
-                            </div>
-                            <!--end::Stat-->
-                            <!--begin::Stat-->
-                            <div class="border border-dashed border-gray-300 rounded d-flex align-items-center py-2 px-3 ms-3"
-                                 data-bs-toggle="tooltip"
-                                 data-bs-placement="bottom"
-                                 title="Expenses"
-                            >
-                                <i class="ki-duotone ki-gear fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                                <span class="ms-1 fs-7 fw-bold text-gray-600"
-                                >{{ recipe.expensesPercentage|number_format(2) }}%</span>
-                            </div>
-                            <!--end::Stat-->
-                            <!--begin::Stat-->
-                            <div class="border border-dashed border-gray-300 d-flex align-items-center rounded py-2 px-3 ms-3"
-                                 data-bs-toggle="tooltip"
-                                 data-bs-placement="bottom"
-                                 title="Profit"
-                            >
-                                <i class="ki-duotone ki-arrow-up-refraction fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                </i>
-                                <span class="ms-1 fs-7 fw-bold text-gray-600"
-                                >{{ recipe.profitPercentage|number_format(2) }}%</span>
-                            </div>
-                            <!--end::Stat-->
-                            <div class="border border-dashed border-gray-300 d-flex align-items-center rounded py-2 px-3 ms-3"
-                                 data-bs-toggle="tooltip"
-                                 data-bs-placement="bottom"
-                                 title="Sale price"
-                            >
-                                <i class="ki-duotone ki-dollar fs-2">
-                                    <span class="path1"></span>
-                                    <span class="path2"></span>
-                                    <span class="path3"></span>
-                                </i>
-                                <span class="ms-1 fs-7 fw-bold text-gray-600"
-                                >{{ sale_price_of_recipe(recipe)|number_format(2) }}</span>
-                            </div>
-                            <!--end::Stat-->
+                        <!--begin::Stat-->
+                        <div class="border border-dashed border-gray-300 rounded d-flex py-2 px-3"
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="bottom"
+                             title="Ingredients"
+                        >
+                            <i class="ki-duotone ki-text-number fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                                <span class="path4"></span>
+                                <span class="path5"></span>
+                                <span class="path6"></span>
+                            </i>
+                            <span class="ms-1 fs-7 fw-bold text-gray-600"
+                            >{{ recipe.ingredients|length }}</span>
                         </div>
+                        <!--end::Stat-->
+                        <!--begin::Stat-->
+                        <div class="border border-dashed border-gray-300 rounded d-flex py-2 px-3"
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="bottom"
+                             title="Expenses"
+                        >
+                            <i class="ki-duotone ki-gear fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            <span class="ms-1 fs-7 fw-bold text-gray-600"
+                            >{{ recipe.expensesPercentage|number_format(2) }}%</span>
+                        </div>
+                        <!--end::Stat-->
+                        <!--begin::Stat-->
+                        <div class="border border-dashed border-gray-300 d-flex rounded py-2 px-3"
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="bottom"
+                             title="Profit"
+                        >
+                            <i class="ki-duotone ki-arrow-up-refraction fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                            <span class="ms-1 fs-7 fw-bold text-gray-600"
+                            >{{ recipe.profitPercentage|number_format(2) }}%</span>
+                        </div>
+                        <!--end::Stat-->
+                        <div class="border border-dashed border-gray-300 d-flex rounded py-2 px-3"
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="bottom"
+                             title="Sale price"
+                        >
+                            <i class="ki-duotone ki-dollar fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                            <span class="ms-1 fs-7 fw-bold text-gray-600"
+                            >{{ sale_price_of_recipe(recipe)|number_format(2) }}</span>
+                        </div>
+                        <!--end::Stat-->
                         <!--end::Stats-->
                     </div>
                     <!--end::Footer-->

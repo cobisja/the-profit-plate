@@ -34,11 +34,11 @@ class RecipeIngredient
     #[Assert\Positive]
     private ?string $cost = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'ingredients',)]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'ingredients')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Recipe $recipe = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'recipeIngredients')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Product $product = null;
 

@@ -17,6 +17,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+#[Route('/admin')]
 class ProductTypesNewController extends AbstractController
 {
     public function __construct(

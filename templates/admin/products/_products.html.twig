@@ -6,11 +6,13 @@
             </a>
         </td>
         <td>
-            <a href="{{ path('app_admin_products_show', { id: product.id }) }}">
-                <img src="{{ asset(uploads_folder ~ '/products/' ~ product.picture) }}"
-                     alt="{{ product.name }}"
-                     width="32"
-                >
+            {% set url = asset(
+                product.picture
+                ? uploads_folder ~ '/products/' ~ product.picture
+                : 'templates/media/files/blank-image.svg'
+            ) %}
+            <a href="#" data-action="admin--shared--image-zoom#zoomImage">
+                <img src="{{ url }}" class="zoom-image" alt="{{ product.name }}" width="32">
             </a>
         </td>
         <td>{{ product.productType.name|capitalize }}</td>
