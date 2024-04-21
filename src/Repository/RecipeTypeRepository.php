@@ -13,4 +13,22 @@ use App\Entity\RecipeType;
 class RecipeTypeRepository extends BaseRepository
 {
     protected static string $entityClassName = RecipeType::class;
+
+    public function getTotal(): int
+    {
+        return $this->createQueryBuilder('rt')
+            ->select('COUNT(rt)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function numberOfRecipesPerType(): array
+    {
+        return $this->createQueryBuilder('rt')
+            ->select('rt as recipe_type, COUNT(r) AS number_of_recipes')
+            ->innerJoin('rt.recipes', 'r')
+            ->groupBy('rt')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

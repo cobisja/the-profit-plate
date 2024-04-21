@@ -13,4 +13,22 @@ use App\Entity\ProductType;
 class ProductTypeRepository extends BaseRepository
 {
     protected static string $entityClassName = ProductType::class;
+
+    public function getTotal(): int
+    {
+        return $this->createQueryBuilder('pt')
+            ->select('COUNT(pt)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function numberOfProductsPerType(): array
+    {
+        return $this->createQueryBuilder('pt')
+            ->select('pt as product_type, COUNT(p) AS number_of_products')
+            ->innerJoin('pt.products', 'p')
+            ->groupBy('pt')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

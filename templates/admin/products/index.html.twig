@@ -4,7 +4,7 @@
 
 {% block page_title %}
     {% include 'layouts/layout/partials/_page-title.html.twig' with {
-        title: 'FBC',
+        title: 'THE PROFIT PLATE',
         breadcrumbs: [
             { 'Home': path('app_admin_dashboard') },
             'Products'
@@ -14,7 +14,7 @@
 
 {% block content %}
     <div class="row g-7"
-         data-controller="admin--shared--modal-form admin--shared--table-filter"
+         data-controller="admin--shared--modal-form admin--shared--table-filter admin--shared--image-zoom"
          data-action="admin--shared--modal-filter:filter_applied->admin--shared--table-updater#applyFilter admin--shared--modal-filter:filter_reset->admin--shared--table-updater#clearFilter"
     >
         <div class="col-lg-6 col-xl-12">
@@ -74,6 +74,9 @@
         <!--start::Shared Modal container -->
         {% include 'shared/_modal-form.html.twig' with { modal_title: 'Product'} %}
         <!--end::Shared Modal container -->
+        <!--begin::Zoom image modal-->
+        {% include 'shared/_modal-zoom-image.html.twig' %}
+        <!--end::Zoom image modal-->
     </div>
 {% endblock %}
 {% block javascripts %}

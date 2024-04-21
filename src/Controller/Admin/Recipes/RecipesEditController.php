@@ -8,6 +8,8 @@ use App\Exception\Recipe\RecipeNotFoundException;
 use App\Exception\Shared\InvalidPictureException;
 use App\Exception\Shared\PictureNotUploadedException;
 use App\Form\RecipeFormType;
+use App\Service\Admin\Recipes\IngredientsCollectionUpdaterService;
+use App\Service\Admin\Recipes\RecipeImageUpdaterService;
 use App\Service\Admin\Recipes\RecipeShowService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,8 +23,8 @@ class RecipesEditController extends AbstractController
 {
     public function __construct(
         private readonly RecipeShowService $recipeShowService,
-        private readonly IngredientsCollectionUpdater $ingredientsCollectionUpdater,
-        private readonly RecipeImageUpdater $recipeImageUpdater,
+        private readonly IngredientsCollectionUpdaterService $ingredientsCollectionUpdater,
+        private readonly RecipeImageUpdaterService $recipeImageUpdater,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }

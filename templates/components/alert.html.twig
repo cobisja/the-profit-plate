@@ -9,6 +9,7 @@
         {% if title %}
             <h4 class="fw-semibold">{{ title }}</h4>
         {% endif %}
+
         {% if not message is iterable %}
             <span>{{ message }}</span>
         {% elseif message is iterable and message|length is same as(1) %}
@@ -19,6 +20,10 @@
                     <li>{{ text }}</li>
                 {% endfor %}
             </ul>
+        {% endif %}
+
+        {% if block('content') %}
+            {% block content %}{% endblock %}
         {% endif %}
     </div>
     <!--end::Content-->

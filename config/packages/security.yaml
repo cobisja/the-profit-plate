@@ -1,15 +1,18 @@
 security:
   password_hashers:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
   providers:
     app_user_provider:
       entity:
         class: App\Entity\User
         property: email
+
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
+
     main:
       lazy: true
       provider: app_user_provider
@@ -21,7 +24,7 @@ security:
         default_target_path: app_admin_dashboard
       logout:
         path: app_logout
-        target: app_frontend_menu
+        target: app_login
       access_denied_handler: App\Controller\Security\AccessDeniedHandler
 
       # activate different ways to authenticate
