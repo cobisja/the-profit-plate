@@ -65,19 +65,9 @@ Load the fixtures (optional):
 php bin/console doctrine:fixtures:load
 ```
 
-Then, you have to run a web server. Here, I used the Symfony's server:
-
-### Application #1 - website.example.com
-```shell
-symfony server:start --no-tls --port=8000 -d
-```
-
-### Application #2 - users.example.com
-```shell
-symfony server:start --no-tls --port=8001 -d
-```
-
 ## Using the application
+
+![Recipe directions](img/dashboard.png)
 
 ### Fill the Conversion table
 
@@ -162,7 +152,7 @@ recalculated:
   * Quantity
   * Unit 
 
-And that's it! You can have define your Menu recipes to set their sale prices.
+And that's it! You have defined your Menu recipes to set their sale prices.
 
 I hope you like what I've done. If so, please leave a comment. If you think I could do the things
 in a different (and easier) way, please leave a comment. I would appreciate it.
